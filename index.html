@@ -31,14 +31,16 @@
         .logo h1 {
             font-size: 1.4rem;
             color: #ffffff;
+            text-align: right;
         }
         .logo span {
             display: block;
             font-size: 0.7rem;
             color: #00f2fe;
             letter-spacing: 2px;
+            text-align: right;
         }
-        /* تصميم قائمة النقاط الثلاث باستخدام HTML البحت */
+        /* ضبط القائمة لتفتح في المكان الصحيح جهة اليمين */
         details {
             position: relative;
         }
@@ -57,7 +59,8 @@
         }
         .dropdown-menu {
             position: absolute;
-            left: 0;
+            right: 0; /* فتح القائمة من جهة اليمين */
+            left: auto;
             top: 45px;
             background: #161b22;
             border: 1px solid #00f2fe;
@@ -74,6 +77,7 @@
             text-decoration: none;
             border-radius: 4px;
             font-size: 0.95rem;
+            text-align: right;
             transition: background 0.2s;
         }
         .dropdown-menu a:hover {
@@ -134,6 +138,13 @@
 <body>
 
     <header>
+        <!-- اسم المتجر في اليسار -->
+        <div class="logo">
+            <h1>وصلها ستور</h1>
+            <span>WASELHA STORE</span>
+        </div>
+        
+        <!-- زر النقاط الثلاث والقائمة في اليمين -->
         <div class="menu-container">
             <details>
                 <summary>⋮</summary>
@@ -142,10 +153,6 @@
                     <a href="admin.html">لوحة التحكم ⚙️</a>
                 </div>
             </details>
-        </div>
-        <div class="logo" style="text-align: left;">
-            <h1>وصلها ستور</h1>
-            <span>WASELHA STORE</span>
         </div>
     </header>
 
