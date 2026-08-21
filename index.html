@@ -58,7 +58,7 @@
                 <button class="dropdown-item" onclick="toggleSubmenu()">تواصل معنا 📞</button>
                 <div class="submenu" id="submenu">
                     <a href="https://wa.me/964XXXXXXXXX" target="_blank" class="dropdown-item">واتساب 💬</a>
-                    <!-- تم تحديث رابط الانستغرام الخاص بك هنا -->
+                    <!-- رابط الانستغرام الصحيح الخاص بك -->
                     <a href="https://www.instagram.com/nfc_waselha?igsi=MTJuamJqY3lxNGx4MA==" target="_blank" class="dropdown-item">انستغرام 📸</a>
                 </div>
                 <button class="dropdown-item" onclick="openLoginModal()">تسجيل الدخول 🔐</button>
@@ -74,7 +74,7 @@
     <section class="products-section">
         <h3>منتجاتنا المميزة</h3>
         <div id="products-container" class="products-grid">
-            <!-- المنتجات ستظهر هنا تلقائياً -->
+            <!-- المنتجات ستتحمل من قاعدة البيانات -->
         </div>
     </section>
 
@@ -99,6 +99,8 @@
     <a href="https://wa.me/964XXXXXXXXX" class="floating-chat" target="_blank">💬</a>
 
     <script>
+        const DB_URL = "https://waselha-store-default-rtdb.firebaseio.com/products.json";
+
         function toggleMenu() { document.getElementById('dropdownMenu').classList.toggle('show'); }
         function toggleSubmenu() { document.getElementById('submenu').classList.toggle('show'); }
         function openLoginModal() { document.getElementById('loginModal').classList.add('active'); document.getElementById('dropdownMenu').classList.remove('show'); }
@@ -116,30 +118,37 @@
             }
         }
 
-        function loadStoreProducts() {
+        async function loadStoreProducts() {
             const container = document.getElementById('products-container');
-            const products = JSON.parse(localStorage.getItem('waselha_products')) || [];
+            container.innerHTML = `<p style="text-align:center; color:#8b949e; grid-column: 1/-1;">جاري جلب المنتجات من القاعدة السحابية...</p>`;
             
-            if (products.length === 0) {
-                container.innerHTML = `<p style="text-align:center; color:#8b949e; grid-column: 1/-1;">لا توجد منتجات مضافة حالياً. قم بإضافتها من لوحة التحكم.</p>`;
-                return;
-            }
+            try {
+                const response = await fetch(DB_URL);
+                const data = await response.json();
+                
+                container.innerHTML = '';
+                if (!data || Object.keys(data).length === 0) {
+                    container.innerHTML = `<p style="text-align:center; color:#8b949e; grid-column: 1/-1;">لا توجد منتجات مضافة حالياً.</p>`;
+                    return;
+                }
 
-            container.innerHTML = '';
-            products.forEach(p => {
-                container.innerHTML += `
-                    <div class="product-card">
-                        <img src="${p.image}" class="product-img" alt="${p.name}">
-                        <div class="product-info">
-                            <h4 class="product-title">${p.name}</h4>
-                            <p class="product-desc">${p.desc}</p>
-                            .product-price { font-size: 1rem; color: #fff; font-weight: bold; margin-bottom: 15px; }
-                            <div class="product-price">${p.price} د.ع</div>
-                            <a href="https://wa.me/964XXXXXXXXX?text=أريد طلب المنتج: ${encodeURIComponent(p.name)}" target="_blank" class="order-btn">اطلب الآن</a>
+                Object.keys(data).forEach(key => {
+                    const p = data[key];
+                    container.innerHTML += `
+                        <div class="product-card">
+                            <img src="${p.image}" class="product-img" alt="${p.name}">
+                            <div class="product-info">
+                                <h4 class="product-title">${p.name}</h4>
+                                <p class="product-desc">${p.desc}</p>
+                                <div class="product-price">${p.price} د.ع</div>
+                                <a href="https://wa.me/964XXXXXXXXX?text=أريد طلب المنتج: ${encodeURIComponent(p.name)}" target="_blank" class="order-btn">اطلب الآن</a>
+                            </div>
                         </div>
-                    </div>
-                `;
-            });
+                    `;
+                });
+            } catch (error) {
+                container.innerHTML = `<p style="text-align:center; color:#da3633; grid-column: 1/-1;">تعذر الاتصال بقاعدة البيانات.</p>`;
+            }
         }
 
         window.onload = loadStoreProducts;
