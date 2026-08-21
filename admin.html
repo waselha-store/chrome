@@ -1,28 +1,19 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="style.css">
-    <title>إدارة المتجر</title>
+    <title>لوحة التحكم</title>
 </head>
 <body>
-    <div class="container" id="loginArea">
-        <h2 style="color:var(--accent)">تسجيل الدخول</h2>
-        <input type="email" id="email" placeholder="البريد"><br>
-        <input type="password" id="pass" placeholder="كلمة المرور"><br>
-        <button class="btn-order" onclick="login()">دخول</button>
-    </div>
-    <div class="container" id="adminPanel" style="display:none;">
-        <h2 style="color:var(--accent)">إضافة منتج</h2>
-        <input type="text" id="pName" placeholder="اسم المنتج">
-        <input type="text" id="pPrice" placeholder="السعر">
-        <input type="file" id="pImg">
-        <button class="btn-order" onclick="addProduct()">حفظ المنتج</button>
-        <table id="productTable">
-            <thead><tr><th>م</th><th>الاسم</th><th>السعر</th><th>إجراء</th></tr></thead>
-            <tbody id="tableBody"></tbody>
-        </table>
-        <br><a href="index.html" style="color:var(--accent)">⬅ خروج</a>
+    <div class="login-container">
+        <div class="login-card">
+            <h2>تسجيل الدخول</h2>
+            <input type="text" id="user" class="input-field" placeholder="اسم المستخدم">
+            <input type="password" id="pass" class="input-field" placeholder="كلمة المرور">
+            <button class="btn-action" onclick="login()">دخول</button>
+            <p style="margin-top:20px;"><a href="index.html" style="color:var(--text-dim);">العودة للرئيسية</a></p>
+        </div>
     </div>
     <script src="app.js"></script>
 </body>
