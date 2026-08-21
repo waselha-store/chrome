@@ -4,100 +4,364 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>لوحة التحكم | وصلها ستور</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #0d1117;
+            color: #ffffff;
+            line-height: 1.6;
+            padding-bottom: 60px;
+        }
+
+        /* الهيدر العلوي */
+        header {
+            background: #161b22;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(0, 242, 254, 0.2);
+        }
+
+        .logo h1 {
+            font-size: 1.3rem;
+            color: #ffffff;
+            text-align: right;
+        }
+
+        .logo span {
+            display: block;
+            font-size: 0.65rem;
+            color: #00f2fe;
+            letter-spacing: 2px;
+            text-align: right;
+        }
+
+        .back-btn {
+            background: #30363d;
+            color: #00f2fe;
+            border: 1px solid #00f2fe;
+            padding: 6px 12px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: background 0.2s;
+        }
+
+        .back-btn:hover {
+            background: rgba(0, 242, 254, 0.1);
+        }
+
+        /* الحاويات والبطاقات */
+        .container {
+            max-width: 950px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+        }
+
+        .card h2 {
+            color: #00f2fe;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            text-align: right;
+            border-bottom: 1px solid #30363d;
+            padding-bottom: 10px;
+        }
+
+        /* تنسيق النموذج */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: #8b949e;
+            margin-bottom: 5px;
+            text-align: right;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 0.95rem;
+            text-align: right;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            height: 80px;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: #00f2fe;
+            outline: none;
+        }
+
+        .btn {
+            background: #00f2fe;
+            color: #0d1117;
+            border: none;
+            padding: 11px 20px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1rem;
+            transition: opacity 0.2s;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        /* تنسيق جدول المنتجات */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            text-align: right;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #30363d;
+            font-size: 0.9rem;
+        }
+
+        th {
+            background: #0d1117;
+            color: #00f2fe;
+        }
+
+        img.thumb {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid #30363d;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-del {
+            background: #da3633;
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: opacity 0.2s;
+        }
+
+        .btn-edit {
+            background: #238636;
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: opacity 0.2s;
+        }
+
+        .btn-del:hover, .btn-edit:hover {
+            opacity: 0.85;
+        }
+    </style>
 </head>
 <body>
 
+    <!-- الهيدر -->
     <header>
-        <a href="index.html" style="text-decoration: none;">
-            <span class="logo-main">وصلـها ستور</span>
-            <span class="logo-sub">WASELHA STORE</span>
-        </a>
-        <div style="position: relative;">
-            <button class="three-dots-btn" onclick="toggleMenu()">⋮</button>
-            <div class="dropdown-menu" id="dropdownMenu">
-                <a href="index.html">الرئيسية</a>
-                <a href="admin.html">تسجيل الدخول</a>
-                <a href="https://wa.me/9647850281586" target="_blank">تواصل معنا</a>
-            </div>
+        <div class="logo">
+            <h1>لوحة التحكم</h1>
+            <span>WASELHA ADMIN</span>
         </div>
+        <a href="index.html" class="back-btn">العودة للمتجر 🏠</a>
     </header>
 
     <div class="container">
+        
+        <!-- قسم إضافة / تعديل منتج -->
+        <div class="card">
+            <h2 id="formTitle">إضافة منتج جديد</h2>
+            <form id="productForm" onsubmit="saveProduct(event)">
+                <input type="hidden" id="editIndex" value="-1">
+                
+                <div class="form-group">
+                    <label>اسم المنتج</label>
+                    <input type="text" id="productName" placeholder="أدخل اسم المنتج" required>
+                </div>
 
-        <!-- تسجيل الدخول -->
-        <div class="admin-card" id="loginCard" style="max-width: 450px; margin: 40px auto;">
-            <h2 style="text-align: center; color: var(--accent-cyan); margin-bottom: 20px;">تسجيل الدخول للأدمن</h2>
-            <form onsubmit="handleLogin(event)" class="form-group">
-                <input type="text" id="username" class="form-input" placeholder="اسم المستخدم" required autocomplete="off">
-                <input type="password" id="password" class="form-input" placeholder="كلمة المرور" required>
-                <button type="submit" class="btn-primary">دخول</button>
+                <div class="form-group">
+                    <label>سعر المنتج (د.ع)</label>
+                    <input type="number" id="productPrice" placeholder="أدخل السعر بالعراقي" required>
+                </div>
+
+                <div class="form-group">
+                    <label>رابط صورة المنتج (URL)</label>
+                    <input type="url" id="productImage" placeholder="ضع رابط الصورة هنا" required>
+                </div>
+
+                <div class="form-group">
+                    <label>شرح أو وصف المنتج</label>
+                    <textarea id="productDesc" placeholder="اكتب تفاصيل وشرح المنتج..." required></textarea>
+                </div>
+
+                <button type="submit" class="btn" id="submitBtn">حفظ وإضافة المنتج</button>
             </form>
         </div>
 
-        <!-- لوحة الإدارة -->
-        <div id="dashboardCard" style="display: none;">
-            
-            <!-- ربط قاعدة البيانات السحابية -->
-            <div class="admin-card" style="border-color: var(--accent-cyan);">
-                <h3 style="color: var(--accent-cyan);">🌐 ربط قاعدة البيانات السحابية (المزامنة لكل الأجهزة)</h3>
-                <p style="font-size: 13px; color: var(--text-secondary); margin: 8px 0;">أدخل رابط Firebase Realtime Database لتظهر المنتجات في جميع الموبايلات فوراً:</p>
-                <div style="display: flex; gap: 10px;">
-                    <input type="text" id="dbUrlInput" class="form-input" placeholder="https://your-app-default-rtdb.firebaseio.com/">
-                    <button onclick="saveDbUrl()" class="btn-update" style="padding: 0 20px; white-space: nowrap;">حفظ الرابط</button>
-                </div>
+        <!-- جدول إدارة المنتجات -->
+        <div class="card">
+            <h2>قائمة المنتجات الحالية</h2>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>الصورة</th>
+                            <th>المنتج والسعر</th>
+                            <th>الشرح / الوصف</th>
+                            <th>الإجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productsTableBody">
+                        <!-- سيتم تعبئة المنتجات هنا تلقائياً -->
+                    </tbody>
+                </table>
             </div>
-
-            <!-- إضافة منتج -->
-            <div class="admin-card">
-                <h2 style="color: var(--accent-cyan);">إضافة منتج جديد</h2>
-                <div class="form-group">
-                    <input type="text" id="pName" class="form-input" placeholder="اسم المنتج">
-                    <input type="text" id="pPrice" class="form-input" placeholder="السعر (مثال: 15,000 IQD)">
-                    <input type="text" id="pDesc" class="form-input" placeholder="وصف المنتج المختصر">
-                    
-                    <label style="font-size: 13px; color: var(--text-secondary);">اختر صورة المنتج:</label>
-                    <input type="file" id="pImgFile" class="form-input" accept="image/*">
-                    
-                    <button onclick="addNewProduct()" class="btn-primary" id="addBtn">إضافة المنتج إلى المتجر</button>
-                </div>
-            </div>
-
-            <!-- جدول المنتجات -->
-            <div class="admin-card">
-                <h2 style="color: var(--accent-cyan); margin-bottom: 15px;">إدارة المنتجات المضافة</h2>
-                <div class="table-wrapper">
-                    <table class="admin-table">
-                        <thead>
-                            <tr>
-                                <th>الصورة</th>
-                                <th>اسم المنتج</th>
-                                <th>الوصف</th>
-                                <th>السعر</th>
-                                <th>إجراءات</th>
-                            </tr>
-                        </thead>
-                        <tbody id="adminTableBody">
-                            <!-- Rows generated dynamically -->
-                        </tbody>
-                    </table>
-                </div>
-                <button onclick="handleLogout()" class="btn-primary" style="background: #334155; margin-top: 25px; width: auto; padding: 10px 25px;">تسجيل الخروج</button>
-            </div>
-
         </div>
 
     </div>
 
-    <script src="app.js"></script>
+    <!-- جافاسكريبت إدارة المنتجات وحفظها محلياً -->
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            checkAuthStatus();
-            const savedUrl = localStorage.getItem("waselha_db_url") || "";
-            if(document.getElementById("dbUrlInput")) {
-                document.getElementById("dbUrlInput").value = savedUrl;
+        // قراءة المنتجات من الذاكرة المحلية للمتصفح
+        function getProducts() {
+            return JSON.parse(localStorage.getItem('waselha_products')) || [];
+        }
+
+        // حفظ المنتجات
+        function saveProducts(products) {
+            localStorage.setItem('waselha_products', JSON.stringify(products));
+        }
+
+        // عرض المنتجات داخل الجدول
+        function renderProducts() {
+            const products = getProducts();
+            const tbody = document.getElementById('productsTableBody');
+            tbody.innerHTML = '';
+
+            if (products.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:#8b949e;">لا توجد منتجات مضافة حالياً.</td></tr>`;
+                return;
             }
-        });
+
+            products.forEach((p, index) => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td><img src="${p.image}" class="thumb" alt="صورة المنتج" onerror="this.src='https://via.placeholder.com/50?text=No+Img'"></td>
+                        <td>
+                            <strong style="color: #00f2fe;">${p.name}</strong><br>
+                            <span style="color: #8b949e; font-size: 0.8rem;">${p.price} د.ع</span>
+                        </td>
+                        <td style="max-width: 220px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${p.desc}">${p.desc}</td>
+                        <td>
+                            <div class="action-btns">
+                                <button class="btn-edit" onclick="editProduct(${index})">تحديث</button>
+                                <button class="btn-del" onclick="deleteProduct(${index})">مسح</button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        // إضافة أو تعديل منتج عند الضغط على زر الحفظ
+        function saveProduct(event) {
+            event.preventDefault();
+            const name = document.getElementById('productName').value;
+            const price = document.getElementById('productPrice').value;
+            const image = document.getElementById('productImage').value;
+            const desc = document.getElementById('productDesc').value;
+            const editIndex = document.getElementById('editIndex').value;
+
+            let products = getProducts();
+
+            if (editIndex === "-1") {
+                // إضافة جديد
+                products.push({ name, price, image, desc });
+                alert('تم إضافة المنتج بنجاح!');
+            } else {
+                // تحديث منتج موجود
+                products[editIndex] = { name, price, image, desc };
+                document.getElementById('editIndex').value = "-1";
+                document.getElementById('submitBtn').innerText = "حفظ وإضافة المنتج";
+                document.getElementById('formTitle').innerText = "إضافة منتج جديد";
+                alert('تم تحديث المنتج بنجاح!');
+            }
+
+            saveProducts(products);
+            document.getElementById('productForm').reset();
+            renderProducts();
+        }
+
+        // حذف منتج
+        function deleteProduct(index) {
+            if (confirm('هل أنت متأكد من مسح هذا المنتج نهائياً؟')) {
+                let products = getProducts();
+                products.splice(index, 1);
+                saveProducts(products);
+                renderProducts();
+            }
+        }
+
+        // تعبئة النموذج ببيانات المنتج لتعديله
+        function editProduct(index) {
+            let products = getProducts();
+            let p = products[index];
+
+            document.getElementById('productName').value = p.name;
+            document.getElementById('productPrice').value = p.price;
+            document.getElementById('productImage').value = p.image;
+            document.getElementById('productDesc').value = p.desc;
+            document.getElementById('editIndex').value = index;
+            
+            document.getElementById('submitBtn').innerText = "تعديل المنتج";
+            document.getElementById('formTitle').innerText = "تعديل المنتج رقم (" + (index + 1) + ")";
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // تحميل الجدول فور فتح الصفحة
+        window.onload = renderProducts;
     </script>
 </body>
 </html>
