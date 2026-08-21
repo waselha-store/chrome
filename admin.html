@@ -2,19 +2,78 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول | Waselha Store</title>
     <link rel="stylesheet" href="style.css">
-    <title>لوحة التحكم</title>
 </head>
 <body>
-    <div class="login-container">
-        <div class="login-card">
+
+    <!-- Header Navigation -->
+    <header>
+        <a href="index.html" class="logo">
+            <span class="logo-main">وصلـها ستور</span>
+            <span class="logo-sub">WASELHA STORE</span>
+        </a>
+        <div class="menu-wrapper">
+            <button class="three-dots-btn" onclick="toggleMenu()">⋮</button>
+            <div class="dropdown-menu" id="dropdownMenu">
+                <a href="index.html">الرئيسية</a>
+                <a href="admin.html">تسجيل الدخول</a>
+                <a href="https://wa.me/9647850281586" target="_blank">تواصل معنا</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Login Area -->
+    <div class="auth-wrapper" id="loginSection">
+        <div class="auth-box">
             <h2>تسجيل الدخول</h2>
-            <input type="text" id="user" class="input-field" placeholder="اسم المستخدم">
-            <input type="password" id="pass" class="input-field" placeholder="كلمة المرور">
-            <button class="btn-action" onclick="login()">دخول</button>
-            <p style="margin-top:20px;"><a href="index.html" style="color:var(--text-dim);">العودة للرئيسية</a></p>
+            <form onsubmit="handleLogin(event)" class="form-group">
+                <input type="text" id="username" class="form-input" placeholder="اسم المستخدم" required autocomplete="off">
+                <input type="password" id="password" class="form-input" placeholder="كلمة المرور" required>
+                <button type="submit" class="btn-primary">دخول</button>
+            </form>
+            <p style="text-align: center; margin-top: 15px;">
+                <a href="index.html" style="color: var(--text-secondary); text-decoration: none; font-size: 13px;">العودة للرئيسية</a>
+            </p>
         </div>
     </div>
+
+    <!-- Dashboard Area (Hidden by Default) -->
+    <div class="auth-wrapper" id="dashboardSection" style="display: none; align-items: flex-start;">
+        <div class="auth-box" style="max-width: 700px;">
+            <h2>إدارة المنتجات</h2>
+            <div class="form-group">
+                <input type="text" id="pName" class="form-input" placeholder="اسم المنتج">
+                <input type="text" id="pPrice" class="form-input" placeholder="السعر (مثال: 15,000)">
+                <input type="text" id="pDesc" class="form-input" placeholder="وصف المنتج المختصر">
+                <input type="file" id="pImg" class="form-input" accept="image/*">
+                <button onclick="addNewProduct()" class="btn-primary">إضافة المنتج</button>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>المنتج</th>
+                            <th>السعر</th>
+                            <th>إجراء</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminTableBody">
+                    </tbody>
+                </table>
+            </div>
+            <button onclick="handleLogout()" class="btn-primary" style="background: #334155; margin-top: 20px;">تسجيل الخروج</button>
+        </div>
+    </div>
+
     <script src="app.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            checkAuthStatus();
+        });
+    </script>
 </body>
 </html>
