@@ -1,28 +1,21 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <title>متجر وصلـها</title>
 </head>
 <body>
     <header>
-        <a href="index.html" class="logo">متجر وصلـها | <span>waselha store</span></a>
-        <div class="menu-container">
-            <button class="dots-btn" onclick="toggleMenu()">⋮</button>
-            <div id="dropdownMenu" class="dropdown-menu">
-                <a href="index.html">🏠 الرئيسية</a>
-                <button class="submenu-btn" onclick="toggleSubmenu(event)"><span>📞 طرق التواصل</span></button>
-                <div id="contactSubmenu" class="submenu-content">
-                    <a href="https://wa.me/9647850281586">💬 الواتساب</a>
-                    <a href="https://www.instagram.com/nfc_waselha?igsi=MTJuamJqY3lxNGx4MA==">📷 الانستغرام</a>
-                </div>
-                <a href="admin.html">👤 تسجيل دخول</a>
-            </div>
-        </div>
+        <a href="index.html" class="logo">وصلـها <span>WASELHA STORE</span></a>
+        <a href="admin.html" style="color:var(--gold)">⚙️</a>
     </header>
-    <section class="hero"><h1>متجر وصلـها</h1></section>
-    <div class="container"><div id="productsGrid" class="products-grid"></div></div>
+    <div class="container">
+        <h2 style="margin-bottom: 15px; border-right: 4px solid var(--gold); padding-right: 10px;">أحدث المنتجات</h2>
+        <div id="productsGrid" class="products-grid"></div>
+    </div>
     <script src="app.js"></script>
-    <script>displayProducts();</script>
+    <script>window.onload = displayProducts;</script>
 </body>
 </html>
