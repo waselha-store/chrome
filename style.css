@@ -1,0 +1,22 @@
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+body { background-color: #0b0c10; color: #fff; direction: rtl; }
+header { background-color: #1f2833; display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; border-bottom: 2px solid #c5a059; position: relative; }
+.logo { color: #fff; font-size: 22px; font-weight: 700; text-decoration: none; }
+.logo span { color: #c5a059; font-size: 16px; }
+.menu-container { position: relative; }
+.dots-btn { background: transparent; border: 1px solid rgba(197, 160, 89, 0.4); color: #c5a059; font-size: 20px; width: 38px; height: 38px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.dropdown-menu { display: none; position: absolute; left: 0; top: 48px; background: #1f2833; border: 1px solid #c5a059; border-radius: 8px; width: 220px; z-index: 1000; }
+.dropdown-menu.show { display: block; }
+.dropdown-menu a, .dropdown-menu .submenu-btn { display: flex; align-items: center; justify-content: space-between; padding: 12px 15px; color: #fff; text-decoration: none; font-size: 14px; width: 100%; background: none; border: none; cursor: pointer; text-align: right; }
+.dropdown-menu a:hover, .dropdown-menu .submenu-btn:hover { background: #c5a059; color: #0b0c10; }
+.submenu-content { display: none; background: #151b22; }
+.submenu-content.show { display: block; }
+.submenu-content a { padding-right: 30px; background: #182029; }
+.hero { text-align: center; padding: 50px 20px; background: linear-gradient(180deg, #1f2833 0%, #0b0c10 100%); }
+.container { width: 90%; max-width: 1200px; margin: 30px auto; }
+.products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+.product-card { background: #1f2833; border-radius: 10px; overflow: hidden; border: 1px solid #333; }
+.product-card img { width: 100%; height: 200px; object-fit: cover; }
+.product-info { padding: 15px; }
+.btn-gold { background: #c5a059; color: #0b0c10; border: none; padding: 10px 15px; border-radius: 5px; font-weight: bold; cursor: pointer; width: 100%; text-align: center; }
+input, textarea { width: 100%; padding: 10px; margin: 10px 0; background: #0b0c10; border: 1px solid #333; color: #fff; border-radius: 5px; }

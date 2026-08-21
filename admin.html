@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container" id="loginBox">
+        <h2 style="color: #c5a059;">تسجيل دخول</h2>
+        <input type="email" id="email" placeholder="البريد الإلكتروني">
+        <input type="password" id="pass" placeholder="كلمة المرور">
+        <button onclick="login()">دخول</button>
+    </div>
+    <div class="container" id="panel" style="display:none;">
+        <h2>إضافة منتج</h2>
+        <input type="text" id="pName" placeholder="اسم المنتج">
+        <textarea id="pDesc" placeholder="وصف المنتج"></textarea>
+        <input type="text" id="pPrice" placeholder="السعر">
+        <input type="file" id="pImg" accept="image/*">
+        <button onclick="addP()">حفظ المنتج</button>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
