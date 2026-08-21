@@ -25,7 +25,7 @@
 
     <div class="container">
 
-        <!-- Login Form -->
+        <!-- تسجيل الدخول -->
         <div class="admin-card" id="loginCard" style="max-width: 450px; margin: 40px auto;">
             <h2 style="text-align: center; color: var(--accent-cyan); margin-bottom: 20px;">تسجيل الدخول للأدمن</h2>
             <form onsubmit="handleLogin(event)" class="form-group">
@@ -35,25 +35,35 @@
             </form>
         </div>
 
-        <!-- Dashboard & Product Management -->
+        <!-- لوحة الإدارة -->
         <div id="dashboardCard" style="display: none;">
             
-            <!-- Form Card -->
-            <div class="admin-card">
-                <h2 style="color: var(--accent-cyan);">إضافة منتج جديد</h2>
-                <div class="form-group">
-                    <input type="text" id="pName" class="form-input" placeholder="اسم المنتج (مثال: ستاند NFC أكريليك)">
-                    <input type="text" id="pPrice" class="form-input" placeholder="السعر (مثال: 15,000 IQD)">
-                    <input type="text" id="pDesc" class="form-input" placeholder="وصف المنتج المختصر">
-                    
-                    <span class="file-label">اختر صورة المنتج من جهازك:</span>
-                    <input type="file" id="pImgFile" class="form-input" accept="image/*">
-                    
-                    <button onclick="addNewProduct()" class="btn-primary">إضافة المنتج إلى المتجر</button>
+            <!-- ربط قاعدة البيانات السحابية -->
+            <div class="admin-card" style="border-color: var(--accent-cyan);">
+                <h3 style="color: var(--accent-cyan);">🌐 ربط قاعدة البيانات السحابية (المزامنة لكل الأجهزة)</h3>
+                <p style="font-size: 13px; color: var(--text-secondary); margin: 8px 0;">أدخل رابط Firebase Realtime Database لتظهر المنتجات في جميع الموبايلات فوراً:</p>
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" id="dbUrlInput" class="form-input" placeholder="https://your-app-default-rtdb.firebaseio.com/">
+                    <button onclick="saveDbUrl()" class="btn-update" style="padding: 0 20px; white-space: nowrap;">حفظ الرابط</button>
                 </div>
             </div>
 
-            <!-- Admin Table Card -->
+            <!-- إضافة منتج -->
+            <div class="admin-card">
+                <h2 style="color: var(--accent-cyan);">إضافة منتج جديد</h2>
+                <div class="form-group">
+                    <input type="text" id="pName" class="form-input" placeholder="اسم المنتج">
+                    <input type="text" id="pPrice" class="form-input" placeholder="السعر (مثال: 15,000 IQD)">
+                    <input type="text" id="pDesc" class="form-input" placeholder="وصف المنتج المختصر">
+                    
+                    <label style="font-size: 13px; color: var(--text-secondary);">اختر صورة المنتج:</label>
+                    <input type="file" id="pImgFile" class="form-input" accept="image/*">
+                    
+                    <button onclick="addNewProduct()" class="btn-primary" id="addBtn">إضافة المنتج إلى المتجر</button>
+                </div>
+            </div>
+
+            <!-- جدول المنتجات -->
             <div class="admin-card">
                 <h2 style="color: var(--accent-cyan); margin-bottom: 15px;">إدارة المنتجات المضافة</h2>
                 <div class="table-wrapper">
@@ -81,7 +91,13 @@
 
     <script src="app.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", checkAuthStatus);
+        document.addEventListener("DOMContentLoaded", () => {
+            checkAuthStatus();
+            const savedUrl = localStorage.getItem("waselha_db_url") || "";
+            if(document.getElementById("dbUrlInput")) {
+                document.getElementById("dbUrlInput").value = savedUrl;
+            }
+        });
     </script>
 </body>
 </html>
