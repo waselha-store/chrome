@@ -38,10 +38,12 @@
             color: #00f2fe;
             letter-spacing: 2px;
         }
-        .menu-container {
+        /* تصميم قائمة النقاط الثلاث باستخدام HTML البحت */
+        details {
             position: relative;
         }
-        .menu-btn {
+        details summary {
+            list-style: none;
             background: none;
             border: none;
             color: #00f2fe;
@@ -50,11 +52,13 @@
             padding: 5px 10px;
             line-height: 1;
         }
-        .dropdown-menu {
+        details summary::-webkit-details-marker {
             display: none;
+        }
+        .dropdown-menu {
             position: absolute;
             left: 0;
-            top: 40px;
+            top: 45px;
             background: #161b22;
             border: 1px solid #00f2fe;
             border-radius: 8px;
@@ -62,9 +66,6 @@
             z-index: 1001;
             min-width: 160px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-        }
-        .dropdown-menu.show {
-            display: block;
         }
         .dropdown-menu a {
             color: #ffffff;
@@ -134,11 +135,13 @@
 
     <header>
         <div class="menu-container">
-            <button class="menu-btn" id="menu-btn" onclick="toggleMenu()">⋮</button>
-            <div class="dropdown-menu" id="dropdown-menu">
-                <a href="index.html">الرئيسية 🏠</a>
-                <a href="admin.html">لوحة التحكم ⚙️</a>
-            </div>
+            <details>
+                <summary>⋮</summary>
+                <div class="dropdown-menu">
+                    <a href="index.html">الرئيسية 🏠</a>
+                    <a href="admin.html">لوحة التحكم ⚙️</a>
+                </div>
+            </details>
         </div>
         <div class="logo" style="text-align: left;">
             <h1>وصلها ستور</h1>
@@ -160,22 +163,6 @@
 
     <a href="https://wa.me/" class="floating-chat" target="_blank" title="تواصل معنا">💬</a>
 
-    <script>
-        function toggleMenu() {
-            const menu = document.getElementById('dropdown-menu');
-            menu.classList.toggle('show');
-        }
-
-        // إغلاق القائمة عند الضغط خارجها
-        document.addEventListener('click', function(event) {
-            const menu = document.getElementById('dropdown-menu');
-            const btn = document.getElementById('menu-btn');
-            if (menu && btn && !menu.contains(event.target) && !btn.contains(event.target)) {
-                menu.classList.remove('show');
-            }
-        });
-    </script>
     <script src="app.js"></script>
 </body>
-</html>
 </html>
