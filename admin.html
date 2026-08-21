@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تسجيل الدخول | وصلها ستور</title>
+    <title>لوحة التحكم | وصلها ستور</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,7 +13,7 @@
             <span class="logo-main">وصلـها ستور</span>
             <span class="logo-sub">WASELHA STORE</span>
         </a>
-        <div>
+        <div style="position: relative;">
             <button class="three-dots-btn" onclick="toggleMenu()">⋮</button>
             <div class="dropdown-menu" id="dropdownMenu">
                 <a href="index.html">الرئيسية</a>
@@ -23,53 +23,58 @@
         </div>
     </header>
 
-    <!-- Centered Form Container -->
-    <div class="login-page-container">
-        
-        <!-- Login Card -->
-        <div class="auth-card" id="loginCard">
-            <h2>تسجيل الدخول</h2>
-            <p class="subtitle">مرحباً بك في منصة وصلها لتقنيات NFC</p>
+    <div class="container">
 
-            <form onsubmit="handleLogin(event)" class="auth-form">
-                <div class="input-wrapper">
-                    <label class="input-label">اسم المستخدم</label>
-                    <input type="text" id="username" class="form-input-lg" placeholder="أدخل اسم المستخدم" required autocomplete="off">
-                </div>
-
-                <div class="input-wrapper">
-                    <label class="input-label">كلمة المرور</label>
-                    <input type="password" id="password" class="form-input-lg" placeholder="أدخل كلمة المرور" required>
-                </div>
-
-                <button type="submit" class="btn-submit">دخول المنصة</button>
+        <!-- Login Form -->
+        <div class="admin-card" id="loginCard" style="max-width: 450px; margin: 40px auto;">
+            <h2 style="text-align: center; color: var(--accent-cyan); margin-bottom: 20px;">تسجيل الدخول للأدمن</h2>
+            <form onsubmit="handleLogin(event)" class="form-group">
+                <input type="text" id="username" class="form-input" placeholder="اسم المستخدم" required autocomplete="off">
+                <input type="password" id="password" class="form-input" placeholder="كلمة المرور" required>
+                <button type="submit" class="btn-primary">دخول</button>
             </form>
-
-            <div class="divider">
-                <span>أو</span>
-            </div>
-
-            <button type="button" class="btn-google" onclick="handleGoogleLogin()">
-                <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.6l3.1-3.1C17.3 1.7 14.8 1 12 1 7.5 1 3.7 3.6 1.9 7.3l3.7 2.9C6.5 7.3 9 5 12 5z"/><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"/><path fill="#FBBC05" d="M5.6 14.8c-.2-.7-.4-1.5-.4-2.3s.2-1.6.4-2.3L1.9 7.3C.7 9.7 0 10.8 0 12.5s.7 2.8 1.9 5.2l3.7-2.9z"/><path fill="#34A853" d="M12 23c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3 0-5.5-2.3-6.4-5.2L1.9 16c1.8 3.7 5.6 7 10.1 7z"/></svg>
-                متابعة باستخدام Google
-            </button>
-
-            <a href="index.html" class="back-link">← العودة للصفحة الرئيسية</a>
         </div>
 
-        <!-- Dashboard Card (Shown only after admin123 login) -->
-        <div class="auth-card" id="dashboardCard" style="display: none; max-width: 650px;">
-            <h2 style="color: var(--accent-cyan);">لوحة تحكم الأدمن</h2>
-            <p class="subtitle">إدارة المنتجات والخدمات</p>
-
-            <div class="auth-form" style="margin-bottom: 25px;">
-                <input type="text" id="pName" class="form-input-lg" placeholder="اسم المنتج">
-                <input type="text" id="pPrice" class="form-input-lg" placeholder="السعر (مثال: 15,000 IQD)">
-                <input type="text" id="pDesc" class="form-input-lg" placeholder="وصف المنتج">
-                <button onclick="addNewProduct()" class="btn-submit">إضافة المنتج للمتجر</button>
+        <!-- Dashboard & Product Management -->
+        <div id="dashboardCard" style="display: none;">
+            
+            <!-- Form Card -->
+            <div class="admin-card">
+                <h2 style="color: var(--accent-cyan);">إضافة منتج جديد</h2>
+                <div class="form-group">
+                    <input type="text" id="pName" class="form-input" placeholder="اسم المنتج (مثال: ستاند NFC أكريليك)">
+                    <input type="text" id="pPrice" class="form-input" placeholder="السعر (مثال: 15,000 IQD)">
+                    <input type="text" id="pDesc" class="form-input" placeholder="وصف المنتج المختصر">
+                    
+                    <span class="file-label">اختر صورة المنتج من جهازك:</span>
+                    <input type="file" id="pImgFile" class="form-input" accept="image/*">
+                    
+                    <button onclick="addNewProduct()" class="btn-primary">إضافة المنتج إلى المتجر</button>
+                </div>
             </div>
 
-            <button onclick="handleLogout()" class="btn-submit" style="background: #334155; color: #fff;">تسجيل الخروج</button>
+            <!-- Admin Table Card -->
+            <div class="admin-card">
+                <h2 style="color: var(--accent-cyan); margin-bottom: 15px;">إدارة المنتجات المضافة</h2>
+                <div class="table-wrapper">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>الصورة</th>
+                                <th>اسم المنتج</th>
+                                <th>الوصف</th>
+                                <th>السعر</th>
+                                <th>إجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminTableBody">
+                            <!-- Rows generated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+                <button onclick="handleLogout()" class="btn-primary" style="background: #334155; margin-top: 25px; width: auto; padding: 10px 25px;">تسجيل الخروج</button>
+            </div>
+
         </div>
 
     </div>
