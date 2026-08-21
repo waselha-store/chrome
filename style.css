@@ -1,76 +1,375 @@
-/* --- التصميم العام --- */
+/* ============================================================
+   WASHELHA STORE - MODERN NFC TECH THEME
+   ============================================================ */
+
 :root {
-    --bg-main: #0b0f19;
-    --card-bg: #161e2e;
-    --accent: #22d3ee; /* لون فيروزي احترافي */
-    --text-main: #f8fafc;
-    --text-dim: #94a3b8;
+    --bg-dark: #060b13;
+    --card-bg: #0d1522;
+    --card-border: rgba(0, 242, 254, 0.15);
+    --accent-cyan: #00f2fe;
+    --accent-blue: #4facfe;
+    --text-primary: #ffffff;
+    --text-secondary: #94a3b8;
+    --glass-bg: rgba(13, 21, 34, 0.75);
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
-body { background-color: var(--bg-main); color: var(--text-main); line-height: 1.6; }
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    direction: rtl;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
 
-/* --- Navbar --- */
+/* Background Glow Effects */
+body::before {
+    content: '';
+    position: fixed;
+    top: -200px;
+    right: -200px;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(0, 242, 254, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* --- Header & Navigation --- */
 header {
-    background: rgba(15, 23, 42, 0.9);
-    padding: 15px 30px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--card-border);
+    padding: 18px 5%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #1e293b;
     position: sticky;
     top: 0;
     z-index: 1000;
 }
 
-.logo { font-size: 20px; font-weight: bold; letter-spacing: 1px; color: var(--accent); }
-.menu-trigger { cursor: pointer; font-size: 24px; color: var(--text-main); }
+.logo {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+}
 
-/* --- صفحة تسجيل الدخول (Fixed) --- */
-.login-container {
+.logo-main {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text-primary);
+    letter-spacing: 1px;
+}
+
+.logo-sub {
+    font-size: 11px;
+    color: var(--accent-cyan);
+    letter-spacing: 2px;
+    font-weight: 600;
+}
+
+.menu-wrapper {
+    position: relative;
+}
+
+.three-dots-btn {
+    background: transparent;
+    border: none;
+    color: var(--accent-cyan);
+    font-size: 26px;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 8px;
+    transition: 0.3s ease;
+}
+
+.three-dots-btn:hover {
+    background: rgba(0, 242, 254, 0.1);
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 45px;
+    width: 200px;
+    background: #0a111c;
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    z-index: 1001;
+}
+
+.dropdown-menu.show {
+    display: block;
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: 12px 18px;
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 14px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: 0.2s ease;
+}
+
+.dropdown-menu a:hover {
+    background: rgba(0, 242, 254, 0.1);
+    color: var(--accent-cyan);
+    padding-right: 22px;
+}
+
+/* --- Hero Section --- */
+.hero-section {
+    padding: 80px 5% 40px;
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.hero-badge {
+    display: inline-block;
+    padding: 6px 16px;
+    background: rgba(0, 242, 254, 0.08);
+    border: 1px solid var(--accent-cyan);
+    border-radius: 20px;
+    color: var(--accent-cyan);
+    font-size: 12px;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.hero-title {
+    font-size: 38px;
+    font-weight: 800;
+    margin-bottom: 15px;
+    background: linear-gradient(135deg, #ffffff 0%, var(--accent-cyan) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-subtitle {
+    color: var(--text-secondary);
+    font-size: 16px;
+    margin-bottom: 30px;
+}
+
+/* --- About Us Section --- */
+.about-section {
+    padding: 50px 5%;
+    max-width: 1000px;
+    margin: 0 auto 40px;
+}
+
+.about-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 35px;
+    position: relative;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+}
+
+.about-card h2 {
+    color: var(--accent-cyan);
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+.about-card p {
+    color: var(--text-secondary);
+    font-size: 15px;
+    margin-bottom: 15px;
+}
+
+/* --- Products Section --- */
+.section-title {
+    text-align: center;
+    font-size: 26px;
+    margin-bottom: 30px;
+    color: var(--text-primary);
+}
+
+.products-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    padding: 0 5% 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.product-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--accent-cyan);
+}
+
+.product-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.product-info h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+.product-info p {
+    color: var(--text-secondary);
+    font-size: 13px;
+    margin-bottom: 15px;
+    height: 40px;
+    overflow: hidden;
+}
+
+.product-price {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--accent-cyan);
+    margin-bottom: 15px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+    color: #030712;
+    border: none;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    width: 100%;
+    transition: opacity 0.2s ease;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+}
+
+.btn-primary:hover {
+    opacity: 0.9;
+}
+
+/* --- Login & Admin Layout Fix --- */
+.auth-wrapper {
+    min-height: 80vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 80vh;
     padding: 20px;
 }
 
-.login-card {
+.auth-box {
     background: var(--card-bg);
-    padding: 40px;
+    border: 1px solid var(--card-border);
     border-radius: 20px;
+    padding: 40px 30px;
     width: 100%;
-    max-width: 400px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    max-width: 420px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+}
+
+.auth-box h2 {
     text-align: center;
+    color: var(--accent-cyan);
+    margin-bottom: 25px;
+    font-size: 22px;
 }
 
-.login-card h2 { margin-bottom: 25px; color: var(--accent); }
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+}
 
-.input-field {
+.form-input {
     width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    background: #0f172a;
-    border: 1px solid #334155;
+    padding: 14px 16px;
+    background: #060b13;
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    color: var(--text-primary);
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.form-input:focus {
+    border-color: var(--accent-cyan);
+}
+
+/* --- Table Styles --- */
+.table-wrapper {
+    overflow-x: auto;
+    margin-top: 25px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card-bg);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: center;
+    border-bottom: 1px solid var(--card-border);
+    font-size: 14px;
+}
+
+th {
+    color: var(--accent-cyan);
+    background: rgba(0, 242, 254, 0.05);
+}
+
+.btn-danger {
+    background: #ef4444;
     color: white;
-    border-radius: 8px;
-}
-
-.btn-action {
-    background: var(--accent);
-    color: black;
     border: none;
-    padding: 12px;
-    width: 100%;
-    border-radius: 8px;
-    font-weight: bold;
+    padding: 6px 12px;
+    border-radius: 6px;
     cursor: pointer;
-    margin-top: 15px;
 }
 
-/* --- المنتجات --- */
-.product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; padding: 30px; }
-.card { background: var(--card-bg); padding: 20px; border-radius: 15px; border: 1px solid #1e293b; }
-.card img { width: 100%; height: 200px; object-fit: cover; border-radius: 10px; margin-bottom: 15px; }
+/* Floating WhatsApp */
+.whatsapp-float {
+    position: fixed;
+    bottom: 25px;
+    left: 25px;
+    background: #25d366;
+    color: white;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4);
+    text-decoration: none;
+    z-index: 999;
+}
