@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>وصلها ستور | WASELHA STORE</title>
     <style>
+        /* إعدادات عامة وتصميم الألوان الداكنة */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -15,8 +16,10 @@
             background-color: #0d1117;
             color: #ffffff;
             line-height: 1.6;
-            padding-bottom: 50px;
+            padding-bottom: 60px;
         }
+
+        /* تصميم الهيدر العلوي */
         header {
             background: #161b22;
             padding: 15px 20px;
@@ -28,101 +31,242 @@
             top: 0;
             z-index: 1000;
         }
+
         .logo h1 {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             color: #ffffff;
             text-align: right;
         }
+
         .logo span {
             display: block;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: #00f2fe;
             letter-spacing: 2px;
             text-align: right;
         }
-        /* القائمة المنسدلة من جهة اليسار وتفتح نحو الداخل */
-        details {
+
+        /* زر النقاط الثلاث والقائمة المنسدلة */
+        .menu-container {
             position: relative;
         }
-        details summary {
-            list-style: none;
+
+        .menu-btn {
             background: none;
             border: none;
             color: #00f2fe;
             font-size: 1.8rem;
             cursor: pointer;
-            padding: 5px 10px;
+            padding: 0 5px;
             line-height: 1;
         }
-        details summary::-webkit-details-marker {
-            display: none;
-        }
+
         .dropdown-menu {
+            display: none;
             position: absolute;
             left: 0;
-            right: auto;
             top: 45px;
             background: #161b22;
             border: 1px solid #00f2fe;
-            border-radius: 8px;
-            padding: 10px;
+            border-radius: 10px;
+            padding: 8px;
             z-index: 1001;
-            min-width: 180px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            min-width: 190px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7);
         }
-        .dropdown-menu a, .dropdown-menu summary {
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .dropdown-item {
             color: #ffffff;
             display: block;
-            padding: 8px 12px;
+            padding: 10px 12px;
             text-decoration: none;
-            border-radius: 4px;
-            font-size: 0.95rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
             text-align: right;
-            transition: background 0.2s;
+            transition: all 0.2s ease;
             cursor: pointer;
+            background: none;
+            border: none;
+            width: 100%;
         }
-        .dropdown-menu a:hover, .dropdown-menu summary:hover {
+
+        .dropdown-item:hover {
             background: rgba(0, 242, 254, 0.1);
             color: #00f2fe;
         }
-        /* تنسيق القائمة الفرعية للتواصل */
-        .sub-menu {
+
+        /* قائمة التواصل الفرعية */
+        .submenu {
+            display: none;
             padding-right: 15px;
-            margin-top: 5px;
+            margin: 5px 0;
             border-right: 2px solid rgba(0, 242, 254, 0.3);
         }
+
+        .submenu.show {
+            display: block;
+        }
+
+        /* الواجهة الرئيسية (Hero Section) */
         .hero {
             text-align: center;
-            padding: 40px 20px;
+            padding: 50px 20px;
             background: linear-gradient(180deg, #161b22 0%, #0d1117 100%);
         }
+
         .hero h2 {
-            font-size: 1.8rem;
+            font-size: 1.7rem;
             color: #00f2fe;
             margin-bottom: 15px;
         }
+
         .hero p {
             color: #8b949e;
             max-width: 600px;
             margin: 0 auto;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
         }
+
+        /* قسم المنتجات */
         .products-section {
             max-width: 1100px;
             margin: 30px auto;
             padding: 0 20px;
         }
+
         .products-section h3 {
             text-align: center;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             margin-bottom: 25px;
             color: #ffffff;
         }
+
         .products-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
             gap: 20px;
         }
+
+        /* نافذة تسجيل الدخول المنبثقة (Modal) */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-box {
+            background: #161b22;
+            border: 1px solid #00f2fe;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 380px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            position: relative;
+        }
+
+        .modal-box h3 {
+            color: #00f2fe;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: #8b949e;
+            margin-bottom: 5px;
+            text-align: right;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px 12px;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 0.95rem;
+            text-align: right;
+        }
+
+        .form-group input:focus {
+            border-color: #00f2fe;
+            outline: none;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 11px;
+            background: #00f2fe;
+            color: #0d1117;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: opacity 0.2s;
+        }
+
+        .login-btn:hover {
+            opacity: 0.9;
+        }
+
+        .google-btn {
+            width: 100%;
+            padding: 10px;
+            background: #ffffff;
+            color: #24292e;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 12px;
+            left: 15px;
+            background: none;
+            border: none;
+            color: #8b949e;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .close-modal:hover {
+            color: #fff;
+        }
+
+        /* زر المحادثة العائم */
         .floating-chat {
             position: fixed;
             bottom: 20px;
@@ -135,7 +279,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
             text-decoration: none;
             font-size: 1.5rem;
             z-index: 999;
@@ -144,27 +288,24 @@
 </head>
 <body>
 
+    <!-- الهيدر العلوي -->
     <header>
-        <!-- زر النقاط الثلاث في اليسار -->
+        <!-- زر القائمة (النقاط الثلاث) في اليسار -->
         <div class="menu-container">
-            <details>
-                <summary>⋮</summary>
-                <div class="dropdown-menu">
-                    <a href="index.html">الرئيسية 🏠</a>
-                    
-                    <!-- قائمة التواصل الفرعية -->
-                    <details>
-                        <summary style="font-size: 0.95rem; color: #fff; padding: 8px 12px;">تواصل معنا 📞</summary>
-                        <div class="sub-menu">
-                            <a href="https://wa.me/964XXXXXXXXX" target="_blank">واتساب 💬</a>
-                            <a href="https://instagram.com/YOUR_ACCOUNT" target="_blank">انستغرام 📸</a>
-                        </div>
-                    </details>
-
-                    <!-- تسجيل الدخول الآمن بحساب جوجل -->
-                    <a href="#" id="google-login-btn">تسجيل دخول (Google) 🔐</a>
+            <button class="menu-btn" id="menuBtn" onclick="toggleMenu()">⋮</button>
+            <div class="dropdown-menu" id="dropdownMenu">
+                <a href="index.html" class="dropdown-item">الرئيسية 🏠</a>
+                
+                <!-- قائمة تواصل معنا الفرعية -->
+                <button class="dropdown-item" onclick="toggleSubmenu()">تواصل معنا 📞</button>
+                <div class="submenu" id="submenu">
+                    <a href="https://wa.me/964XXXXXXXXX" target="_blank" class="dropdown-item">واتساب 💬</a>
+                    <a href="https://instagram.com/YOUR_ACCOUNT" target="_blank" class="dropdown-item">انستغرام 📸</a>
                 </div>
-            </details>
+
+                <!-- زر فتح نافذة تسجيل الدخول -->
+                <button class="dropdown-item" onclick="openLoginModal()">تسجيل الدخول 🔐</button>
+            </div>
         </div>
 
         <!-- اسم المتجر في اليمين -->
@@ -174,11 +315,13 @@
         </div>
     </header>
 
+    <!-- الواجهة الترحيبية -->
     <section class="hero">
         <h2>مستقبل التفاعل الرقمي بين يديك</h2>
         <p>أحدث حلول NFC وتقنيات التقييم الذكي للمطاعم والكافيهات والمؤسسات</p>
     </section>
 
+    <!-- قسم المنتجات -->
     <section class="products-section">
         <h3>منتجاتنا المميزة</h3>
         <div id="products-container" class="products-grid">
@@ -186,8 +329,96 @@
         </div>
     </section>
 
+    <!-- نافذة تسجيل الدخول المنبثقة (Modal) -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal-box">
+            <button class="close-modal" onclick="closeLoginModal()">✕</button>
+            <h3>تسجيل الدخول</h3>
+            
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>اسم المستخدم</label>
+                    <input type="text" id="username" placeholder="أدخل اسم المستخدم" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>كلمة المرور</label>
+                    <input type="password" id="password" placeholder="أدخل كلمة المرور" required>
+                </div>
+
+                <button type="submit" class="login-btn">دخول</button>
+            </form>
+
+            <button class="google-btn" onclick="googleLogin()">
+                <span>G</span> تسجيل الدخول بحساب جوجل
+            </button>
+        </div>
+    </div>
+
+    <!-- زر الواتساب العائم -->
     <a href="https://wa.me/964XXXXXXXXX" class="floating-chat" target="_blank" title="تواصل معنا">💬</a>
 
+    <!-- ملف الجافاسكريبت الخاص بالمتجر -->
     <script src="app.js"></script>
+
+    <!-- أكواد التحكم بالقوائم ونافذة تسجيل الدخول -->
+    <script>
+        // إظهار وإخفاء القائمة الرئيسية
+        function toggleMenu() {
+            const menu = document.getElementById('dropdownMenu');
+            menu.classList.toggle('show');
+        }
+
+        // إظهار وإخفاء القائمة الفرعية للتواصل
+        function toggleSubmenu() {
+            const sub = document.getElementById('submenu');
+            sub.classList.toggle('show');
+        }
+
+        // فتح نافذة تسجيل الدخول
+        function openLoginModal() {
+            document.getElementById('loginModal').classList.add('active');
+            document.getElementById('dropdownMenu').classList.remove('show');
+        }
+
+        // إغلاق نافذة تسجيل الدخول
+        function closeLoginModal() {
+            document.getElementById('loginModal').classList.remove('active');
+        }
+
+        // التحقق من بيانات تسجيل الدخول (الآدمن أو المستخدم العادي)
+        function handleLogin(event) {
+            event.preventDefault();
+            const user = document.getElementById('username').value.trim();
+            const pass = document.getElementById('password').value.trim();
+
+            // فحص بيانات الآدمن السرية
+            if (user === 'admin' && pass === '123') {
+                alert('مرحباً بك يا مدير، يتم توجيهك إلى لوحة التحكم...');
+                window.location.href = 'admin.html';
+            } else {
+                // محاكاة تسجيل دخول مستخدم عادي
+                alert('تم تسجيل الدخول بنجاح! أهلاً بك يا ' + user);
+                closeLoginModal();
+            }
+        }
+
+        // محاكاة تسجيل دخول جوجل
+        function googleLogin() {
+            alert('تم الاتصال بخدمة مصادقة جوجل بنجاح.');
+            closeLoginModal();
+        }
+
+        // إغلاق القائمة عند النقر في أي مكان خارجها
+        window.onclick = function(event) {
+            if (!event.target.matches('.menu-btn') && !event.target.closest('.dropdown-menu')) {
+                document.getElementById('dropdownMenu').classList.remove('show');
+            }
+            const modal = document.getElementById('loginModal');
+            if (event.target === modal) {
+                closeLoginModal();
+            }
+        }
+    </script>
 </body>
 </html>
