@@ -8,13 +8,12 @@
 </head>
 <body>
 
-    <!-- Header Navigation -->
     <header>
-        <a href="index.html" class="logo">
+        <a href="index.html" style="text-decoration: none;">
             <span class="logo-main">وصلـها ستور</span>
             <span class="logo-sub">WASELHA STORE</span>
         </a>
-        <div class="menu-wrapper">
+        <div style="position: relative;">
             <button class="three-dots-btn" onclick="toggleMenu()">⋮</button>
             <div class="dropdown-menu" id="dropdownMenu">
                 <a href="index.html">الرئيسية</a>
@@ -24,36 +23,26 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <span class="hero-badge">تقنيات NFC الذكية للجيل الجديد</span>
-        <h1 class="hero-title">مستقبل التفاعل الرقمي بين يديك</h1>
-        <p class="hero-subtitle">نقدم أحدث حلول الاتصال قريب المدى (NFC) للمطاعم، الكافيهات، والشركات في العراق بأعلى معايير الجودة.</p>
-    </section>
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <h1 class="hero-title">مستقبل التفاعل الرقمي بين يديك</h1>
+            <p class="hero-subtitle">أحدث حلول NFC وتقنيات التقييم الذكي للمطاعم والكافيهات والمؤسسات</p>
+        </section>
 
-    <!-- About Us Section -->
-    <section class="about-section">
-        <div class="about-card">
-            <h2>من نحن؟</h2>
-            <p>نحن في <strong>وصلها ستور (Waselha Store)</strong> متخصصون في تقديم الحلول التكنولوجية الذكية لتطوير تجربة العملاء في قطاع المطاعم والمؤسسات. نهدف إلى استبدال الطرق التقليدية بحلول التقييم الذكي، المنيو الرقمي السريع، وحوامل الأكريليك والأستيل المزودة بتقنية NFC.</p>
-            <p>تسهم حلولنا في زيادة تقييمات Google Maps لمطعمك وتنظيم عمل قائمة الطعام الرقمية بلمسة هاتف واحدة دون الحاجة لتحميل أي تطبيقات.</p>
+        <!-- Products List -->
+        <h2 style="margin-bottom: 20px; font-size: 22px;">منتجاتنا المميزة</h2>
+        <div class="products-grid" id="productsGrid">
+            <!-- Dynamic Content -->
         </div>
-    </section>
-
-    <!-- Products Section -->
-    <h2 class="section-title">منتجاتنا المميزة</h2>
-    <div class="products-container" id="productsGrid">
-        <!-- Products generated dynamically via app.js -->
     </div>
 
-    <!-- Floating WhatsApp Button -->
-    <a href="https://wa.me/9647850281586" class="whatsapp-float" target="_blank" title="تواصل معنا عبر واتساب">💬</a>
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/9647850281586" class="whatsapp-float" target="_blank">💬</a>
 
     <script src="app.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            initStore();
-        });
+        document.addEventListener("DOMContentLoaded", initStore);
     </script>
 </body>
 </html>
