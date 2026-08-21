@@ -44,7 +44,7 @@
         <div class="card">
             <h2 id="formTitle">إضافة منتج جديد</h2>
             <form id="productForm" onsubmit="saveProduct(event)">
-                <input type="hidden" id="editIndex" value="-1">
+                <input type="hidden" id="editId" value="">
                 <input type="hidden" id="existingImage" value="">
                 
                 <div class="form-group">
@@ -72,7 +72,7 @@
         </div>
 
         <div class="card">
-            <h2>قائمة المنتجات الحالية</h2>
+            <h2>قائمة المنتجات السحابية</h2>
             <div class="table-responsive">
                 <table>
                     <thead>
@@ -92,17 +92,23 @@
     </div>
 
     <script>
-        function getProducts() {
-            return JSON.parse(localStorage.getItem('waselha_products')) || [];
+        const DB_BASE_URL = "https://waselha-store-default-rtdb.firebaseio.com/products";
+
+        async function getProducts() {
+            try {
+                const res = await fetch(`${DB_BASE_URL}.json`);
+                const data = await res.json();
+                if (!data) return [];
+                return Object.keys(data).map(key => ({ id: key, ...data[key] }));
+            } catch (e) {
+                return [];
+            }
         }
 
-        function saveProducts(products) {
-            localStorage.setItem('waselha_products', JSON.stringify(products));
-        }
-
-        function renderProducts() {
-            const products = getProducts();
+        async function renderProducts() {
             const tbody = document.getElementById('productsTableBody');
+            tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:#8b949e;">جاري جلب المنتجات...</td></tr>`;
+            const products = await getProducts();
             tbody.innerHTML = '';
 
             if (products.length === 0) {
@@ -110,7 +116,7 @@
                 return;
             }
 
-            products.forEach((p, index) => {
+            products.forEach((p) => {
                 tbody.innerHTML += `
                     <tr>
                         <td><img src="${p.image}" class="thumb" alt="صورة"></td>
@@ -121,8 +127,8 @@
                         <td style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${p.desc}">${p.desc}</td>
                         <td>
                             <div class="action-btns">
-                                <button class="btn-edit" onclick="editProduct(${index})">تحديث</button>
-                                <button class="btn-del" onclick="deleteProduct(${index})">مسح</button>
+                                <button class="btn-edit" onclick="editProduct('${p.id}', '${encodeURIComponent(p.name)}', '${p.price}', '${encodeURIComponent(p.desc)}', '${encodeURIComponent(p.image)}')">تحديث</button>
+                                <button class="btn-del" onclick="deleteProduct('${p.id}')">مسح</button>
                             </div>
                         </td>
                     </tr>
@@ -130,69 +136,76 @@
             });
         }
 
-        function saveProduct(event) {
+        async function saveProduct(event) {
             event.preventDefault();
             const name = document.getElementById('productName').value;
             const price = document.getElementById('productPrice').value;
             const desc = document.getElementById('productDesc').value;
-            const editIndex = document.getElementById('editIndex').value;
+            const editId = document.getElementById('editId').value;
             const fileInput = document.getElementById('productImageFile');
             const existingImage = document.getElementById('existingImage').value;
 
-            let products = getProducts();
+            function proceedWithImage(imageSource) {
+                const productData = { name, price, image: imageSource, desc };
 
-            function finishSaving(imageSource) {
-                if (editIndex === "-1") {
-                    products.push({ name, price, image: imageSource, desc });
-                    alert('تم إضافة المنتج بنجاح!');
+                if (!editId) {
+                    // إضافة جديد (POST)
+                    fetch(`${DB_BASE_URL}.json`, {
+                        method: 'POST',
+                        body: JSON.stringify(productData)
+                    }).then(() => {
+                        alert('تم إضافة المنتج بنجاح إلى قاعدة البيانات السحابية!');
+                        resetForm();
+                        renderProducts();
+                    });
                 } else {
-                    products[editIndex] = { name, price, image: imageSource, desc };
-                    document.getElementById('editIndex').value = "-1";
-                    document.getElementById('submitBtn').innerText = "حفظ وإضافة المنتج";
-                    document.getElementById('formTitle').innerText = "إضافة منتج جديد";
-                    alert('تم تحديث المنتج بنجاح!');
+                    // تعديل (PUT)
+                    fetch(`${DB_BASE_URL}/${editId}.json`, {
+                        method: 'PUT',
+                        body: JSON.stringify(productData)
+                    }).then(() => {
+                        alert('تم تحديث المنتج بنجاح!');
+                        resetForm();
+                        renderProducts();
+                    });
                 }
-
-                saveProducts(products);
-                document.getElementById('productForm').reset();
-                document.getElementById('existingImage').value = "";
-                renderProducts();
             }
 
             if (fileInput.files && fileInput.files[0]) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    finishSaving(e.target.result);
+                    proceedWithImage(e.target.result);
                 };
                 reader.readAsDataURL(fileInput.files[0]);
             } else {
-                let defaultImg = existingImage ? existingImage : 'https://via.placeholder.com/250?text=No+Image';
-                finishSaving(defaultImg);
+                proceedWithImage(existingImage || 'https://via.placeholder.com/250?text=No+Image');
             }
         }
 
-        function deleteProduct(index) {
-            if (confirm('هل أنت متأكد من مسح هذا المنتج نهائياً؟')) {
-                let products = getProducts();
-                products.splice(index, 1);
-                saveProducts(products);
+        function resetForm() {
+            document.getElementById('productForm').reset();
+            document.getElementById('editId').value = "";
+            document.getElementById('existingImage').value = "";
+            document.getElementById('submitBtn').innerText = "حفظ وإضافة المنتج";
+            document.getElementById('formTitle').innerText = "إضافة منتج جديد";
+        }
+
+        async function deleteProduct(id) {
+            if (confirm('هل أنت متأكد من مسح هذا المنتج من القاعدة السحابية؟')) {
+                await fetch(`${DB_BASE_URL}/${id}.json`, { method: 'DELETE' });
                 renderProducts();
             }
         }
 
-        function editProduct(index) {
-            let products = getProducts();
-            let p = products[index];
-
-            document.getElementById('productName').value = p.name;
-            document.getElementById('productPrice').value = p.price;
-            document.getElementById('productDesc').value = p.desc;
-            document.getElementById('existingImage').value = p.image;
-            document.getElementById('editIndex').value = index;
+        function editProduct(id, name, price, desc, image) {
+            document.getElementById('productName').value = decodeURIComponent(name);
+            document.getElementById('productPrice').value = price;
+            document.getElementById('productDesc').value = decodeURIComponent(desc);
+            document.getElementById('existingImage').value = decodeURIComponent(image);
+            document.getElementById('editId').value = id;
             
             document.getElementById('submitBtn').innerText = "تعديل المنتج";
-            document.getElementById('formTitle').innerText = "تعديل المنتج رقم (" + (index + 1) + ")";
-
+            document.getElementById('formTitle').innerText = "تعديل المنتج";
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
