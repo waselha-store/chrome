@@ -1,267 +1,236 @@
-// القائمة المنسدلة
-function toggleMenu() {
-    const menu = document.getElementById("dropdownMenu");
-    if (menu) menu.classList.toggle("show");
-}
+// ==========================================
+// Waselha Store - وصلها ستور
+// Full Firebase Integration & Product Management
+// ==========================================
 
-// الحصول على رابط قاعدة البيانات إن وجد
-function getDbUrl() {
-    let url = localStorage.getItem("waselha_db_url") || "";
-    if (url && !url.endsWith("/")) url += "/";
-    return url;
-}
+// 1. رابط قاعدة البيانات الافتراضي (Firebase Realtime Database)
+const DEFAULT_FIREBASE_URL = 'https://waselha-store-default-rtdb.firebaseio.com/';
 
-function saveDbUrl() {
-    const input = document.getElementById("dbUrlInput").value.trim();
-    localStorage.setItem("waselha_db_url", input);
-    alert("تم حفظ رابط قاعدة البيانات السحابية بنجاح!");
-    initStore();
-    if (typeof renderAdminTable === "function") renderAdminTable();
-}
-
-// جلب المنتجات (من السيرفر أو المحرز المحلي)
-async function fetchProducts() {
-    const dbUrl = getDbUrl();
-    if (dbUrl) {
-        try {
-            const res = await fetch(dbUrl + "products.json");
-            const data = await res.json();
-            if (!data) return [];
-            // تحويل الكائن إلى مصفوفة مع الإبقاء على المعرف ID
-            return Object.keys(data).map(key => ({ id: key, ...data[key] }));
-        } catch (e) {
-            console.error("Firebase Error:", e);
-        }
+// الحصول على الرابط المحفوظ أو استخدام الرابط الافتراضي دائمًا
+function getFirebaseUrl() {
+    let savedUrl = localStorage.getItem('waselha_db_url');
+    if (!savedUrl || savedUrl.trim() === '' || savedUrl.includes('null')) {
+        savedUrl = DEFAULT_FIREBASE_URL;
+        localStorage.setItem('waselha_db_url', savedUrl);
     }
-    // في حال عدم وجود سيرفر سحابي
-    return JSON.parse(localStorage.getItem("waselha_products")) || [];
+    savedUrl = savedUrl.trim().replace(/^[|/\\s]+/, '');
+    if (!savedUrl.startsWith('http://') && !savedUrl.startsWith('https://')) {
+        savedUrl = 'https://' + savedUrl;
+    }
+    if (!savedUrl.endsWith('/')) {
+        savedUrl += '/';
+    }
+    return savedUrl;
 }
 
-// حفظ المنتجات محلياً فقط في حال عدم وجود سيرفر
-function saveLocalProducts(products) {
-    localStorage.setItem("waselha_products", JSON.stringify(products));
-}
-
-// عرض المنتجات في الواجهة الرئيسية
-async function initStore() {
-    const container = document.getElementById("productsGrid");
-    if (!container) return;
-
-    container.innerHTML = `<p style="color: var(--text-secondary); text-align:center; grid-column: 1/-1;">جاري تحميل المنتجات...</p>`;
-
-    const products = await fetchProducts();
-
-    if (products.length === 0) {
-        container.innerHTML = `<p style="color: var(--text-secondary); text-align:center; grid-column: 1/-1;">لا توجد منتجات معروضة حالياً.</p>`;
-        return;
+// 2. تهيئة التطبيق عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', () => {
+    const firebaseUrl = getFirebaseUrl();
+    
+    const dbUrlInput = document.getElementById('db-url-input') || document.querySelector('input[type="text"]');
+    const saveUrlBtn = document.getElementById('save-url-btn');
+    
+    if (dbUrlInput) {
+        dbUrlInput.value = firebaseUrl;
     }
 
-    container.innerHTML = products.map(product => `
-        <div class="product-card">
-            <div>
-                <img src="${product.img || 'https://via.placeholder.com/300x200?text=No+Image'}" class="product-img" alt="${product.name}">
-                <div class="product-title">${product.name}</div>
-                <div class="product-desc">${product.desc || '-'}</div>
-            </div>
-            <div>
-                <div class="product-price">${product.price}</div>
-                <a href="https://wa.me/9647850281586?text=${encodeURIComponent('مرحباً، أريد طلب: ' + product.name)}" target="_blank" class="btn-primary">اطلب الآن</a>
-            </div>
-        </div>
-    `).join('');
-}
-
-// تسجيل الدخول
-function handleLogin(event) {
-    event.preventDefault();
-    const user = document.getElementById("username").value.trim();
-    const pass = document.getElementById("password").value.trim();
-
-    if (user === "admin123" && pass === "123321") {
-        localStorage.setItem("waselha_auth", "true");
-        checkAuthStatus();
-    } else {
-        alert("اسم المستخدم أو كلمة المرور غير صحيحة!");
-    }
-}
-
-function checkAuthStatus() {
-    const isAuth = localStorage.getItem("waselha_auth") === "true";
-    const loginCard = document.getElementById("loginCard");
-    const dashCard = document.getElementById("dashboardCard");
-
-    if (loginCard && dashCard) {
-        if (isAuth) {
-            loginCard.style.display = "none";
-            dashCard.style.display = "block";
-            renderAdminTable();
-        } else {
-            loginCard.style.display = "block";
-            dashCard.style.display = "none";
-        }
-    }
-}
-
-// ضغط الصورة تلقائياً لحل مشكلة التعليق والبطء
-function compressImage(file, callback) {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-        const img = new Image();
-        img.onload = () => {
-            const canvas = document.createElement('canvas');
-            const MAX_WIDTH = 500;
-            let width = img.width;
-            let height = img.height;
-
-            if (width > MAX_WIDTH) {
-                height *= MAX_WIDTH / width;
-                width = MAX_WIDTH;
+    if (saveUrlBtn) {
+        saveUrlBtn.addEventListener('click', () => {
+            let inputVal = dbUrlInput.value.trim();
+            if (inputVal) {
+                localStorage.setItem('waselha_db_url', inputVal);
+                alert('تم حفظ رابط قاعدة البيانات بنجاح!');
+                loadProducts();
+            } else {
+                localStorage.setItem('waselha_db_url', DEFAULT_FIREBASE_URL);
+                alert('تم الاستعادة للرابط الافتراضي.');
+                loadProducts();
             }
-
-            canvas.width = width;
-            canvas.height = height;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0, width, height);
-            callback(canvas.toDataURL('image/jpeg', 0.7));
-        };
-        img.src = e.target.result;
-    };
-    reader.readAsDataURL(file);
-}
-
-// إضافة منتج جديد
-async function addNewProduct() {
-    const name = document.getElementById("pName").value.trim();
-    const price = document.getElementById("pPrice").value.trim();
-    const desc = document.getElementById("pDesc").value.trim();
-    const fileInput = document.getElementById("pImgFile");
-    const addBtn = document.getElementById("addBtn");
-
-    if (!name || !price) {
-        alert("يرجى كتابة اسم المنتج والسعر!");
-        return;
+        });
     }
 
-    addBtn.innerText = "جاري الحفظ...";
-    addBtn.disabled = true;
+    // تحميل المنتجات
+    loadProducts();
 
-    const processSave = async (imgSrc) => {
+    // إعداد نموذج إضافة منتج جديد
+    setupProductForm();
+});
+
+// 3. جلب وقراءة المنتجات من Firebase Realtime Database
+async function loadProducts() {
+    const firebaseUrl = getFirebaseUrl();
+    const productsContainer = document.getElementById('products-container') || 
+                              document.getElementById('productsList') || 
+                              document.querySelector('.products-grid') ||
+                              document.querySelector('.products-list');
+
+    if (!productsContainer) return;
+
+    try {
+        productsContainer.innerHTML = '<p style="text-align:center; color:#888; width:100%;">جاري تحميل المنتجات...</p>';
+        
+        const response = await fetch(`${firebaseUrl}products.json`);
+        if (!response.ok) {
+            throw new Error('فشل في الاتصال بقاعدة البيانات');
+        }
+
+        const data = await response.json();
+        productsContainer.innerHTML = '';
+
+        if (!data || Object.keys(data).length === 0) {
+            productsContainer.innerHTML = '<p style="text-align:center; color:#888; width:100%;">لا توجد منتجات حالياً.</p>';
+            return;
+        }
+
+        Object.keys(data).forEach(id => {
+            const product = data[id];
+            if (product) {
+                const card = createProductCard(id, product);
+                productsContainer.appendChild(card);
+            }
+        });
+
+    } catch (error) {
+        console.error('خطأ في جلب البيانات:', error);
+        productsContainer.innerHTML = '<p style="text-align:center; color:#ff4d4d; width:100%;">حدث خطأ أثناء تحميل البيانات.</p>';
+    }
+}
+
+// 4. إنشاء كارت المنتج (لالمتجر ولوحة التحكم)
+function createProductCard(id, product) {
+    const isAdmin = window.location.pathname.includes('admin');
+    const div = document.createElement('div');
+    div.className = 'product-card';
+    div.style.cssText = 'background: rgba(255,255,255,0.05); border: 1px solid rgba(0,242,254,0.2); border-radius: 12px; padding: 15px; margin: 10px; text-align: right; position: relative; color: #fff; display: flex; flex-direction: column; justify-content: space-between;';
+
+    const imgUrl = product.image || 'https://via.placeholder.com/300x200?text=Waselha+Store';
+    const priceText = typeof product.price === 'number' ? product.price.toLocaleString() + ' IQD' : product.price;
+
+    div.innerHTML = `
+        <div style="width:100%; height:180px; overflow:hidden; border-radius:8px; margin-bottom:12px; background:#000;">
+            <img src="${imgUrl}" alt="${product.name || product.title}" style="width:100%; height:100%; object-fit:cover;">
+        </div>
+        <h3 style="margin: 5px 0; font-size:1.2rem; color:#00f2fe;">${product.name || product.title || 'منتج بدون اسم'}</h3>
+        <p style="color:#aaa; font-size:0.9rem; margin-bottom:10px;">${product.description || ''}</p>
+        <div style="font-weight:bold; font-size:1.1rem; color:#4facfe; margin-bottom:12px;">${priceText}</div>
+    `;
+
+    if (isAdmin) {
+        const deleteBtn = document.createElement('button');
+        deleteBtn.innerText = 'حذف المنتج 🗑️';
+        deleteBtn.style.cssText = 'background: #ff4d4d; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-weight: bold; margin-top: auto;';
+        deleteBtn.onclick = () => deleteProduct(id);
+        div.appendChild(deleteBtn);
+    } else {
+        const orderBtn = document.createElement('a');
+        orderBtn.innerText = 'اطلب الآن 🛒';
+        orderBtn.href = `https://wa.me/?text=${encodeURIComponent('أود طلب منتج: ' + (product.name || product.title))}`;
+        orderBtn.target = '_blank';
+        orderBtn.style.cssText = 'background: linear-gradient(45deg, #00f2fe, #4facfe); color: #000; text-decoration: none; text-align: center; padding: 10px; border-radius: 6px; font-weight: bold; margin-top: auto; display: block;';
+        div.appendChild(orderBtn);
+    }
+
+    return div;
+}
+
+// 5. إضافة منتج جديد إلى Firebase
+function setupProductForm() {
+    const form = document.getElementById('add-product-form') || document.getElementById('product-form') || document.querySelector('form');
+    if (!form) return;
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const nameInput = document.getElementById('product-name') || form.querySelector('input[placeholder*="اسم"]') || form.querySelectorAll('input')[0];
+        const priceInput = document.getElementById('product-price') || form.querySelector('input[placeholder*="السعر"]') || form.querySelectorAll('input')[1];
+        const descInput = document.getElementById('product-desc') || form.querySelector('textarea') || form.querySelector('input[placeholder*="وصف"]');
+        const imageInput = document.getElementById('product-image') || form.querySelector('input[type="file"]');
+
+        if (!nameInput || !priceInput) {
+            alert('يرجى ملء كافة الخانات المطلوبة!');
+            return;
+        }
+
+        const name = nameInput.value.trim();
+        const price = priceInput.value.trim();
+        const description = descInput ? descInput.value.trim() : '';
+
+        if (!name || !price) {
+            alert('يرجى كتابة اسم المنتج والسعر!');
+            return;
+        }
+
+        let imageUrl = 'https://via.placeholder.com/300x200?text=Waselha+Store';
+
+        if (imageInput && imageInput.files && imageInput.files[0]) {
+            const file = imageInput.files[0];
+            imageUrl = await convertFileToBase64(file);
+        }
+
         const newProduct = {
             name: name,
+            title: name,
             price: price,
-            desc: desc,
-            img: imgSrc || "https://via.placeholder.com/300x200?text=Waselha+NFC"
+            description: description,
+            image: imageUrl,
+            createdAt: new Date().toISOString()
         };
 
-        const dbUrl = getDbUrl();
-        if (dbUrl) {
-            try {
-                await fetch(dbUrl + "products.json", {
-                    method: "POST",
-                    body: JSON.stringify(newProduct),
-                    headers: { "Content-Type": "application/json" }
-                });
-            } catch (e) {
-                console.error("Firebase save error:", e);
+        const firebaseUrl = getFirebaseUrl();
+
+        try {
+            const response = await fetch(`${firebaseUrl}products.json`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newProduct)
+            });
+
+            if (response.ok) {
+                alert('تمت إضافة المنتج بنجاح إلى كافة الأجهزة! 🎉');
+                form.reset();
+                loadProducts();
+            } else {
+                alert('حدث خطأ أثناء حفظ المنتج في Firebase!');
             }
-        } else {
-            let products = JSON.parse(localStorage.getItem("waselha_products")) || [];
-            products.push({ id: Date.now().toString(), ...newProduct });
-            saveLocalProducts(products);
+        } catch (err) {
+            console.error('خطأ الإضافة:', err);
+            alert('تعذر الاتصال بقاعدة البيانات.');
         }
-
-        alert("تمت إضافة المنتج بنجاح!");
-        document.getElementById("pName").value = '';
-        document.getElementById("pPrice").value = '';
-        document.getElementById("pDesc").value = '';
-        if (fileInput) fileInput.value = '';
-
-        addBtn.innerText = "إضافة المنتج إلى المتجر";
-        addBtn.disabled = false;
-        renderAdminTable();
-    };
-
-    if (fileInput && fileInput.files && fileInput.files[0]) {
-        compressImage(fileInput.files[0], (compressedData) => {
-            processSave(compressedData);
-        });
-    } else {
-        processSave(null);
-    }
+    });
 }
 
-// عرض الجدول في لوحة الأدمن
-async function renderAdminTable() {
-    const tbody = document.getElementById("adminTableBody");
-    if (!tbody) return;
-
-    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;">جاري جلب المنتجات...</td></tr>`;
-
-    const products = await fetchProducts();
-
-    if (products.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color: var(--text-secondary);">لا توجد منتجات حالياً. أضف منتجك الأول من الأعلى!</td></tr>`;
+// 6. حذف منتج من Firebase Realtime Database
+async function deleteProduct(productId) {
+    if (!confirm('هل أنت تأكد من رغبتك في حذف هذا المنتج نهائياً من كافة الأجهزة؟')) {
         return;
     }
 
-    tbody.innerHTML = products.map((p, index) => `
-        <tr>
-            <td><img src="${p.img}" class="table-thumb" alt="صورة"></td>
-            <td><strong>${p.name}</strong></td>
-            <td style="color: var(--text-secondary); font-size: 13px;">${p.desc || '-'}</td>
-            <td>
-                <input type="text" id="price-input-${index}" class="price-input" value="${p.price}">
-                <br>
-                <button onclick="updatePrice('${p.id || index}', ${index})" class="btn-update">تحديث السعر</button>
-            </td>
-            <td>
-                <button onclick="deleteProduct('${p.id || index}', ${index})" class="btn-danger">حذف</button>
-            </td>
-        </tr>
-    `).join('');
-}
+    const firebaseUrl = getFirebaseUrl();
 
-// تحديث السعر
-async function updatePrice(id, index) {
-    const newPrice = document.getElementById(`price-input-${index}`).value.trim();
-    if (!newPrice) return alert("يرجى إدخال السعر!");
-
-    const dbUrl = getDbUrl();
-    if (dbUrl && id) {
-        await fetch(`${dbUrl}products/${id}.json`, {
-            method: "PATCH",
-            body: JSON.stringify({ price: newPrice }),
-            headers: { "Content-Type": "application/json" }
+    try {
+        const response = await fetch(`${firebaseUrl}products/${productId}.json`, {
+            method: 'DELETE'
         });
-    } else {
-        let products = JSON.parse(localStorage.getItem("waselha_products")) || [];
-        if (products[index]) {
-            products[index].price = newPrice;
-            saveLocalProducts(products);
+
+        if (response.ok) {
+            alert('تم حذف المنتج بنجاح! 🗑️');
+            loadProducts();
+        } else {
+            alert('فشل عملية الحذف من قاعدة البيانات.');
         }
+    } catch (err) {
+        console.error('خطأ الحذف:', err);
+        alert('حدث خطأ أثناء الحذف.');
     }
-    alert("تم تحديث السعر بنجاح!");
-    renderAdminTable();
 }
 
-// حذف المنتج بشكل نهائي وفعال
-async function deleteProduct(id, index) {
-    if (!confirm("هل أنت تأكد من حذف هذا المنتج بشكل نهائي؟")) return;
-
-    const dbUrl = getDbUrl();
-    if (dbUrl && id) {
-        await fetch(`${dbUrl}products/${id}.json`, { method: "DELETE" });
-    } else {
-        let products = JSON.parse(localStorage.getItem("waselha_products")) || [];
-        products.splice(index, 1);
-        saveLocalProducts(products);
-    }
-
-    alert("تم الحذف بنجاح!");
-    renderAdminTable();
-}
-
-function handleLogout() {
-    localStorage.removeItem("waselha_auth");
-    checkAuthStatus();
+function convertFileToBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
 }
