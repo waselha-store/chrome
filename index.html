@@ -1,24 +1,31 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>متجر وصلـها</title>
 </head>
 <body>
-    <nav>
-        <div class="logo">وصلـها</div>
-        <div class="menu-icon" onclick="document.querySelector('.nav-links').classList.toggle('active')">⋮</div>
-        <div class="nav-links">
-            <a href="index.html">الرئيسية</a>
-            <a href="admin.html">لوحة التحكم</a>
-            <a href="https://wa.me/9647850281586">تواصل معنا</a>
-        </div>
-    </nav>
-    <div class="products-grid" id="productsGrid"></div>
-    <a href="https://wa.me/9647850281586" class="wa-btn">💬</a>
+    <header>
+        <div class="logo">وصلـها | Waselha</div>
+        <div class="menu-trigger" onclick="toggleMenu()">⋮</div>
+    </header>
+
+    <div id="nav-menu" style="display:none; background:#1e293b; padding:15px; border-radius:0 0 10px 10px; text-align:center;">
+        <a href="index.html" style="color:white; display:block; padding:10px;">الرئيسية</a>
+        <a href="admin.html" style="color:white; display:block; padding:10px;">تسجيل الدخول</a>
+    </div>
+
+    <div class="product-grid" id="product-container">
+        <!-- المنتجات ستظهر هنا برمجياً -->
+    </div>
+
+    <script>
+        function toggleMenu() { 
+            let m = document.getElementById('nav-menu'); 
+            m.style.display = (m.style.display === 'block') ? 'none' : 'block'; 
+        }
+    </script>
     <script src="app.js"></script>
-    <script>displayProducts();</script>
 </body>
 </html>
