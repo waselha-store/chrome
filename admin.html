@@ -3,22 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="style.css">
+    <title>لوحة التحكم | Waselha Store</title>
 </head>
 <body>
-    <div class="container" id="loginBox">
-        <h2 style="color: #c5a059;">تسجيل دخول</h2>
+    <div id="loginBox" class="container">
+        <h2 style="color: #c5a059;">تسجيل الدخول</h2>
         <input type="email" id="email" placeholder="البريد الإلكتروني">
         <input type="password" id="pass" placeholder="كلمة المرور">
-        <button onclick="login()">دخول</button>
+        <button onclick="login()" class="btn-gold">دخول</button>
     </div>
-    <div class="container" id="panel" style="display:none;">
-        <h2>إضافة منتج</h2>
-        <input type="text" id="pName" placeholder="اسم المنتج">
-        <textarea id="pDesc" placeholder="وصف المنتج"></textarea>
-        <input type="text" id="pPrice" placeholder="السعر">
-        <input type="file" id="pImg" accept="image/*">
-        <button onclick="addP()">حفظ المنتج</button>
+
+    <div id="panel" class="container" style="display:none; max-width: 900px;">
+        <h2 style="color: #c5a059;">لوحة إدارة المتجر</h2>
+        <div class="admin-card">
+            <h3 id="formTitle">إضافة منتج جديد</h3>
+            <input type="hidden" id="editId">
+            <input type="text" id="pName" placeholder="اسم المنتج">
+            <textarea id="pDesc" placeholder="شرح المنتج"></textarea>
+            <input type="text" id="pPrice" placeholder="السعر">
+            <input type="file" id="pImg" accept="image/*">
+            <button onclick="saveProduct()" class="btn-gold" id="saveBtn">حفظ المنتج</button>
+        </div>
+
+        <h3 style="margin-top:30px;">قائمة المنتجات</h3>
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>الرقم</th>
+                    <th>المنتج</th>
+                    <th>السعر</th>
+                    <th>تحكم</th>
+                </tr>
+            </thead>
+            <tbody id="productTableBody"></tbody>
+        </table>
+        <br>
+        <a href="index.html" style="color:#c5a059; text-decoration:none;">⬅ العودة للمتجر</a>
     </div>
     <script src="app.js"></script>
+    <script>
+        // تفعيل الجدول عند تحميل الصفحة
+        if(localStorage.getItem('isLoggedIn')) {
+            document.getElementById('loginBox').style.display = 'none';
+            document.getElementById('panel').style.display = 'block';
+            renderTable();
+        }
+    </script>
 </body>
 </html>
