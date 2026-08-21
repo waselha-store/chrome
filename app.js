@@ -1,76 +1,59 @@
-// حفظ المنتجات
-function saveProduct() {
+function addProduct() {
     const name = document.getElementById('pName').value;
     const price = document.getElementById('pPrice').value;
-    const desc = document.getElementById('pDesc').value;
     const file = document.getElementById('pImg').files[0];
-    
-    if(!name || !price) return alert("يرجى ملء البيانات");
-
     const reader = new FileReader();
     reader.onload = function(e) {
-        let products = JSON.parse(localStorage.getItem('waselha_products') || '[]');
-        products.push({name, price, desc, img: e.target.result});
-        localStorage.setItem('waselha_products', JSON.stringify(products));
-        alert('تمت الإضافة!');
+        let prods = JSON.parse(localStorage.getItem('my_prods') || '[]');
+        prods.push({name, price, img: e.target.result});
+        localStorage.setItem('my_prods', JSON.stringify(prods));
         location.reload();
     };
     reader.readAsDataURL(file);
 }
 
-// عرض المنتجات في المتجر
 function displayProducts() {
     const grid = document.getElementById('productsGrid');
     if(!grid) return;
-    const products = JSON.parse(localStorage.getItem('waselha_products') || '[]');
-    grid.innerHTML = products.map(p => `
-        <div class="product-card">
+    let prods = JSON.parse(localStorage.getItem('my_prods') || '[]');
+    grid.innerHTML = prods.map(p => `
+        <div class="card">
             <img src="${p.img}">
-            <div class="info">
-                <div class="title">${p.name}</div>
-                <div class="price">${p.price} IQD</div>
-                <button class="btn-buy" onclick="window.open('https://wa.me/9647850281586?text=مرحباً، أريد طلب: ${p.name}')">طلب عبر الواتساب</button>
+            <div class="card-body">
+                <p><b>${p.name}</b></p>
+                <p style="color:var(--accent)">${p.price} IQD</p>
+                <button class="btn-order" onclick="window.open('https://wa.me/9647850281586')">اطلب الآن</button>
             </div>
         </div>
     `).join('');
 }
 
-// عرض الجدول في الأدمن
-function renderTable() {
-    const tbody = document.getElementById('productTableBody');
+function renderAdminTable() {
+    const tbody = document.getElementById('tableBody');
     if(!tbody) return;
-    let products = JSON.parse(localStorage.getItem('waselha_products') || '[]');
-    tbody.innerHTML = products.map((p, i) => `
-        <tr>
-            <td>${i+1}</td>
-            <td>${p.name}</td>
-            <td>${p.price}</td>
-            <td class="actions">
-                <button style="background:#e74c3c" onclick="deleteProduct(${i})">🗑️</button>
-            </td>
-        </tr>
+    let prods = JSON.parse(localStorage.getItem('my_prods') || '[]');
+    tbody.innerHTML = prods.map((p, i) => `
+        <tr><td>${i+1}</td><td>${p.name}</td><td>${p.price}</td>
+        <td><button onclick="deleteP(${i})" style="color:red; background:none; border:none;">حذف</button></td></tr>
     `).join('');
 }
 
-function deleteProduct(i) {
-    let products = JSON.parse(localStorage.getItem('waselha_products'));
-    products.splice(i, 1);
-    localStorage.setItem('waselha_products', JSON.stringify(products));
-    renderTable();
+function deleteP(i) {
+    let prods = JSON.parse(localStorage.getItem('my_prods'));
+    prods.splice(i, 1);
+    localStorage.setItem('my_prods', JSON.stringify(prods));
+    renderAdminTable();
 }
 
 function login() {
-    if(document.getElementById('email').value === "ali@admin.com" && document.getElementById('pass').value === "1234") {
-        localStorage.setItem('logged', 'true');
+    if(document.getElementById('email').value === "admin" && document.getElementById('pass').value === "123") {
+        localStorage.setItem('isLogged', 'true');
         location.reload();
-    } else { alert("خطأ!"); }
+    }
 }
 
-// التحقق من الدخول
-if(window.location.pathname.includes('admin.html')) {
-    if(localStorage.getItem('logged') === 'true') {
-        document.getElementById('loginBox').style.display = 'none';
-        document.getElementById('panel').style.display = 'block';
-        renderTable();
-    }
+if(location.pathname.includes('admin.html') && localStorage.getItem('isLogged') === 'true') {
+    document.getElementById('loginArea').style.display = 'none';
+    document.getElementById('adminPanel').style.display = 'block';
+    renderAdminTable();
 }
