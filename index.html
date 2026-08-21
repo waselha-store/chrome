@@ -2,30 +2,58 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>وصلها ستور | Waselha Store</title>
     <link rel="stylesheet" href="style.css">
-    <title>متجر وصلـها</title>
 </head>
 <body>
+
+    <!-- Header Navigation -->
     <header>
-        <div class="logo">وصلـها | Waselha</div>
-        <div class="menu-trigger" onclick="toggleMenu()">⋮</div>
+        <a href="index.html" class="logo">
+            <span class="logo-main">وصلـها ستور</span>
+            <span class="logo-sub">WASELHA STORE</span>
+        </a>
+        <div class="menu-wrapper">
+            <button class="three-dots-btn" onclick="toggleMenu()">⋮</button>
+            <div class="dropdown-menu" id="dropdownMenu">
+                <a href="index.html">الرئيسية</a>
+                <a href="admin.html">تسجيل الدخول</a>
+                <a href="https://wa.me/9647850281586" target="_blank">تواصل معنا</a>
+            </div>
+        </div>
     </header>
 
-    <div id="nav-menu" style="display:none; background:#1e293b; padding:15px; border-radius:0 0 10px 10px; text-align:center;">
-        <a href="index.html" style="color:white; display:block; padding:10px;">الرئيسية</a>
-        <a href="admin.html" style="color:white; display:block; padding:10px;">تسجيل الدخول</a>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <span class="hero-badge">تقنيات NFC الذكية للجيل الجديد</span>
+        <h1 class="hero-title">مستقبل التفاعل الرقمي بين يديك</h1>
+        <p class="hero-subtitle">نقدم أحدث حلول الاتصال قريب المدى (NFC) للمطاعم، الكافيهات، والشركات في العراق بأعلى معايير الجودة.</p>
+    </section>
+
+    <!-- About Us Section -->
+    <section class="about-section">
+        <div class="about-card">
+            <h2>من نحن؟</h2>
+            <p>نحن في <strong>وصلها ستور (Waselha Store)</strong> متخصصون في تقديم الحلول التكنولوجية الذكية لتطوير تجربة العملاء في قطاع المطاعم والمؤسسات. نهدف إلى استبدال الطرق التقليدية بحلول التقييم الذكي، المنيو الرقمي السريع، وحوامل الأكريليك والأستيل المزودة بتقنية NFC.</p>
+            <p>تسهم حلولنا في زيادة تقييمات Google Maps لمطعمك وتنظيم عمل قائمة الطعام الرقمية بلمسة هاتف واحدة دون الحاجة لتحميل أي تطبيقات.</p>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <h2 class="section-title">منتجاتنا المميزة</h2>
+    <div class="products-container" id="productsGrid">
+        <!-- Products generated dynamically via app.js -->
     </div>
 
-    <div class="product-grid" id="product-container">
-        <!-- المنتجات ستظهر هنا برمجياً -->
-    </div>
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/9647850281586" class="whatsapp-float" target="_blank" title="تواصل معنا عبر واتساب">💬</a>
 
-    <script>
-        function toggleMenu() { 
-            let m = document.getElementById('nav-menu'); 
-            m.style.display = (m.style.display === 'block') ? 'none' : 'block'; 
-        }
-    </script>
     <script src="app.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            initStore();
+        });
+    </script>
 </body>
 </html>
