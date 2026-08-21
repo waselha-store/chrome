@@ -1,59 +1,37 @@
-function addProduct() {
-    const name = document.getElementById('pName').value;
-    const price = document.getElementById('pPrice').value;
-    const file = document.getElementById('pImg').files[0];
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        let prods = JSON.parse(localStorage.getItem('my_prods') || '[]');
-        prods.push({name, price, img: e.target.result});
-        localStorage.setItem('my_prods', JSON.stringify(prods));
-        location.reload();
-    };
-    reader.readAsDataURL(file);
-}
+// نظام بسيط لعرض المنتجات من التخزين المحلي
+function loadProducts() {
+    const container = document.getElementById('product-container');
+    if(!container) return;
+    
+    // بيانات تجريبية إذا كان المتجر فارغاً
+    let products = JSON.parse(localStorage.getItem('my_products') || '[]');
+    
+    if(products.length === 0) {
+        container.innerHTML = "<p style='text-align:center; padding:50px;'>لا توجد منتجات حالياً.</p>";
+        return;
+    }
 
-function displayProducts() {
-    const grid = document.getElementById('productsGrid');
-    if(!grid) return;
-    let prods = JSON.parse(localStorage.getItem('my_prods') || '[]');
-    grid.innerHTML = prods.map(p => `
+    container.innerHTML = products.map(p => `
         <div class="card">
-            <img src="${p.img}">
-            <div class="card-body">
-                <p><b>${p.name}</b></p>
-                <p style="color:var(--accent)">${p.price} IQD</p>
-                <button class="btn-order" onclick="window.open('https://wa.me/9647850281586')">اطلب الآن</button>
-            </div>
+            <img src="${p.img}" alt="منتج">
+            <h3>${p.name}</h3>
+            <p style="color:var(--accent); font-weight:bold;">${p.price} IQD</p>
+            <button class="btn-action" onclick="window.open('https://wa.me/9647850281586')">اطلب الآن</button>
         </div>
     `).join('');
 }
 
-function renderAdminTable() {
-    const tbody = document.getElementById('tableBody');
-    if(!tbody) return;
-    let prods = JSON.parse(localStorage.getItem('my_prods') || '[]');
-    tbody.innerHTML = prods.map((p, i) => `
-        <tr><td>${i+1}</td><td>${p.name}</td><td>${p.price}</td>
-        <td><button onclick="deleteP(${i})" style="color:red; background:none; border:none;">حذف</button></td></tr>
-    `).join('');
-}
-
-function deleteP(i) {
-    let prods = JSON.parse(localStorage.getItem('my_prods'));
-    prods.splice(i, 1);
-    localStorage.setItem('my_prods', JSON.stringify(prods));
-    renderAdminTable();
-}
-
 function login() {
-    if(document.getElementById('email').value === "admin" && document.getElementById('pass').value === "123") {
-        localStorage.setItem('isLogged', 'true');
-        location.reload();
+    let u = document.getElementById('user').value;
+    let p = document.getElementById('pass').value;
+    // استبدل ببياناتك الحقيقية
+    if(u === "admin" && p === "123") {
+        alert("تم الدخول بنجاح");
+        window.location.href = "dashboard.html"; // توجه لصفحة التحكم
+    } else {
+        alert("خطأ في البيانات");
     }
 }
 
-if(location.pathname.includes('admin.html') && localStorage.getItem('isLogged') === 'true') {
-    document.getElementById('loginArea').style.display = 'none';
-    document.getElementById('adminPanel').style.display = 'block';
-    renderAdminTable();
-}
+// تنفيذ عند التحميل
+window.onload = loadProducts;
