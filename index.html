@@ -6,43 +6,72 @@
     <title>وصلها ستور | WASELHA STORE</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #0d1117; color: #ffffff; line-height: 1.6; padding-bottom: 60px; }
-        header { background: #161b22; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0, 242, 254, 0.2); position: sticky; top: 0; z-index: 1000; }
-        .logo h1 { font-size: 1.3rem; color: #ffffff; text-align: right; }
-        .logo span { display: block; font-size: 0.65rem; color: #00f2fe; letter-spacing: 2px; text-align: right; }
+        body { background-color: #120c1f; color: #f3e8ff; line-height: 1.6; padding-bottom: 60px; }
+        
+        /* الهيدر بتدرجات عصرية فخمة */
+        header { background: rgba(26, 16, 43, 0.95); backdrop-filter: blur(10px); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 42, 133, 0.25); position: sticky; top: 0; z-index: 1000; }
+        .logo h1 { font-size: 1.4rem; color: #ffffff; text-align: right; font-weight: 800; background: linear-gradient(45deg, #ff2a85, #ff9f43); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .logo span { display: block; font-size: 0.65rem; color: #ff9f43; letter-spacing: 3px; text-align: right; font-weight: bold; }
+        
+        /* القائمة المنسدلة الأنيقة */
         .menu-container { position: relative; }
-        .menu-btn { background: none; border: none; color: #00f2fe; font-size: 1.8rem; cursor: pointer; padding: 0 5px; line-height: 1; }
-        .dropdown-menu { display: none; position: absolute; left: 0; top: 45px; background: #161b22; border: 1px solid #00f2fe; border-radius: 10px; padding: 8px; z-index: 1001; min-width: 190px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.8); }
-        .dropdown-menu.show { display: block; }
-        .dropdown-item { color: #ffffff; display: block; padding: 10px 12px; text-decoration: none; border-radius: 6px; font-size: 0.9rem; text-align: right; transition: all 0.2s ease; cursor: pointer; background: none; border: none; width: 100%; }
-        .dropdown-item:hover { background: rgba(0, 242, 254, 0.1); color: #00f2fe; }
-        .submenu { display: none; padding-right: 15px; margin: 5px 0; border-right: 2px solid rgba(0, 242, 254, 0.3); }
+        .menu-btn { background: linear-gradient(135deg, #ff2a85, #ff7675); border: none; color: #fff; width: 40px; height: 40px; border-radius: 50%; font-size: 1.4rem; cursor: pointer; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 15px rgba(255, 42, 133, 0.4); transition: transform 0.2s; }
+        .menu-btn:hover { transform: scale(1.05); }
+        
+        .dropdown-menu { display: none; position: absolute; left: 0; top: 55px; background: #1a102b; border: 1px solid rgba(255, 42, 133, 0.3); border-radius: 14px; padding: 10px; z-index: 1001; min-width: 210px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7); }
+        .dropdown-menu.show { display: block; animation: fadeIn 0.2s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .dropdown-item { color: #f3e8ff; display: flex; align-items: center; gap: 10px; padding: 11px 14px; text-decoration: none; border-radius: 8px; font-size: 0.95rem; text-align: right; transition: all 0.2s ease; cursor: pointer; background: none; border: none; width: 100%; font-weight: 500; }
+        .dropdown-item:hover { background: rgba(255, 42, 133, 0.15); color: #ff2a85; transform: translateX(-3px); }
+        .dropdown-item svg { width: 18px; height: 18px; fill: currentColor; flex-shrink: 0; }
+        
+        .submenu { display: none; padding-right: 20px; margin: 4px 0; border-right: 2px solid rgba(255, 159, 67, 0.4); }
         .submenu.show { display: block; }
-        .hero { text-align: center; padding: 40px 20px; background: linear-gradient(180deg, #161b22 0%, #0d1117 100%); }
-        .hero h2 { font-size: 1.5rem; color: #00f2fe; margin-bottom: 10px; }
-        .hero p { color: #8b949e; max-width: 600px; margin: 0 auto; font-size: 0.9rem; }
-        .products-section { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
-        .products-section h3 { text-align: center; font-size: 1.3rem; margin-bottom: 25px; color: #ffffff; }
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
-        .product-card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
-        .product-img { width: 100%; height: 180px; object-fit: cover; background: #0d1117; }
-        .product-info { padding: 15px; text-align: right; }
-        .product-title { font-size: 1.1rem; color: #00f2fe; margin-bottom: 5px; }
-        .product-desc { font-size: 0.85rem; color: #8b949e; margin-bottom: 10px; }
-        .product-price { font-size: 1rem; color: #fff; font-weight: bold; margin-bottom: 15px; }
-        .order-btn { display: block; width: 100%; padding: 10px; background: #00f2fe; color: #0d1117; border: none; border-radius: 6px; font-weight: bold; text-align: center; text-decoration: none; cursor: pointer; transition: opacity 0.2s; }
-        .order-btn:hover { opacity: 0.9; }
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 2000; justify-content: center; align-items: center; padding: 20px; }
+
+        /* واجهة الترحيب (Hero Section) */
+        .hero { text-align: center; padding: 50px 20px; background: radial-gradient(circle at center, #261642 0%, #120c1f 70%); border-bottom: 1px solid rgba(255, 42, 133, 0.1); }
+        .hero h2 { font-size: 1.8rem; color: #ffffff; margin-bottom: 12px; font-weight: 800; }
+        .hero h2 span { color: #ff2a85; }
+        .hero p { color: #c084fc; max-width: 600px; margin: 0 auto; font-size: 1rem; font-weight: 400; }
+
+        /* قسم المنتجات والبطاقات */
+        .products-section { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
+        .products-section h3 { text-align: center; font-size: 1.5rem; margin-bottom: 30px; color: #ffffff; font-weight: 700; display: inline-block; width: 100%; }
+        .products-section h3::after { content: ''; display: block; width: 60px; height: 3px; background: linear-gradient(90deg, #ff2a85, #ff9f43); margin: 8px auto 0; border-radius: 2px; }
+        
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 25px; }
+        
+        .product-card { background: #1a102b; border: 1px solid rgba(255, 42, 133, 0.2); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 8px 25px rgba(0,0,0,0.4); transition: transform 0.3s, border-color 0.3s; }
+        .product-card:hover { transform: translateY(-5px); border-color: rgba(255, 42, 133, 0.6); }
+        
+        .product-img { width: 100%; height: 190px; object-fit: cover; background: #120c1f; }
+        .product-info { padding: 18px; text-align: right; }
+        .product-title { font-size: 1.15rem; color: #ffffff; margin-bottom: 8px; font-weight: 700; }
+        .product-desc { font-size: 0.88rem; color: #d8b4fe; margin-bottom: 15px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .product-price { font-size: 1.1rem; color: #ff9f43; font-weight: 800; margin-bottom: 18px; }
+        
+        .order-btn { display: block; width: 100%; padding: 12px; background: linear-gradient(135deg, #ff2a85, #e84393); color: #ffffff; border: none; border-radius: 10px; font-weight: bold; text-align: center; text-decoration: none; cursor: pointer; transition: opacity 0.2s, box-shadow 0.2s; box-shadow: 0 4px 15px rgba(255, 42, 133, 0.3); }
+        .order-btn:hover { opacity: 0.95; box-shadow: 0 6px 20px rgba(255, 42, 133, 0.5); }
+
+        /* نافذة تسجيل الدخول */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(12, 8, 20, 0.85); backdrop-filter: blur(5px); z-index: 2000; justify-content: center; align-items: center; padding: 20px; }
         .modal-overlay.active { display: flex; }
-        .modal-box { background: #161b22; border: 1px solid #00f2fe; border-radius: 12px; width: 100%; max-width: 380px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); position: relative; }
-        .modal-box h3 { color: #00f2fe; text-align: center; margin-bottom: 20px; font-size: 1.3rem; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; font-size: 0.85rem; color: #8b949e; margin-bottom: 5px; text-align: right; }
-        .form-group input { width: 100%; padding: 10px 12px; background: #0d1117; border: 1px solid #30363d; border-radius: 6px; color: #fff; font-size: 0.95rem; text-align: right; }
-        .form-group input:focus { border-color: #00f2fe; outline: none; }
-        .login-btn { width: 100%; padding: 11px; background: #00f2fe; color: #0d1117; border: none; border-radius: 6px; font-weight: bold; font-size: 1rem; cursor: pointer; margin-top: 10px; }
-        .close-modal { position: absolute; top: 12px; left: 15px; background: none; border: none; color: #8b949e; font-size: 1.2rem; cursor: pointer; }
-        .floating-chat { position: fixed; bottom: 20px; left: 20px; background: #25d366; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.4); text-decoration: none; font-size: 1.5rem; z-index: 999; }
+        .modal-box { background: #1a102b; border: 1px solid #ff2a85; border-radius: 18px; width: 100%; max-width: 390px; padding: 30px; box-shadow: 0 15px 40px rgba(0,0,0,0.8); position: relative; }
+        .modal-box h3 { color: #ffffff; text-align: center; margin-bottom: 22px; font-size: 1.4rem; font-weight: 700; }
+        
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; font-size: 0.88rem; color: #d8b4fe; margin-bottom: 6px; text-align: right; font-weight: 500; }
+        .form-group input { width: 100%; padding: 12px 14px; background: #120c1f; border: 1px solid rgba(255, 42, 133, 0.3); border-radius: 10px; color: #fff; font-size: 1rem; text-align: right; }
+        .form-group input:focus { border-color: #ff2a85; outline: none; box-shadow: 0 0 10px rgba(255, 42, 133, 0.3); }
+        
+        .login-btn { width: 100%; padding: 12px; background: linear-gradient(135deg, #ff2a85, #ff9f43); color: #ffffff; border: none; border-radius: 10px; font-weight: bold; font-size: 1.05rem; cursor: pointer; margin-top: 10px; box-shadow: 0 5px 20px rgba(255, 42, 133, 0.4); }
+        .close-modal { position: absolute; top: 15px; left: 18px; background: none; border: none; color: #d8b4fe; font-size: 1.3rem; cursor: pointer; transition: color 0.2s; }
+        .close-modal:hover { color: #ff2a85; }
+
+        /* زر الواتساب العائم الحماسي */
+        .floating-chat { position: fixed; bottom: 25px; left: 25px; background: #00b894; color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 6px 20px rgba(0, 184, 148, 0.5); text-decoration: none; font-size: 1.7rem; z-index: 999; transition: transform 0.3s; }
+        .floating-chat:hover { transform: scale(1.1); }
     </style>
 </head>
 <body>
@@ -54,26 +83,35 @@
         <div class="menu-container">
             <button class="menu-btn" onclick="toggleMenu()">⋮</button>
             <div class="dropdown-menu" id="dropdownMenu">
-                <a href="index.html" class="dropdown-item">الرئيسية 🏠</a>
-                <button class="dropdown-item" onclick="toggleSubmenu()">تواصل معنا 📞</button>
+                <a href="index.html" class="dropdown-item">
+                    <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                    الرئيسية
+                </a>
+                <button class="dropdown-item" onclick="toggleSubmenu()">
+                    <svg viewBox="0 0 24 24"><path d="M20 15.5c-1.25 0-2.45-.2-3.57-.57-.35-.11-.74-.03-1.02.24l-2.2 2.2c-2.83-1.44-5.15-3.75-6.59-6.59l2.2-2.21c.28-.27.36-.66.25-1.01C8.7 6.45 8.5 5.25 8.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1zM19 12h2c0-4.97-4.03-9-9-9v2c3.87 0 7 3.13 7 7zm-4 0h2c0-2.76-2.24-5-5-5v2c1.66 0 3 1.34 3 3z"/></svg>
+                    تواصل معنا
+                </button>
                 <div class="submenu" id="submenu">
                     <a href="https://wa.me/9647850281586" target="_blank" class="dropdown-item">واتساب 💬</a>
                     <a href="https://www.instagram.com/nfc_waselha?igsi=MTJuamJqY3lxNGx4MA==" target="_blank" class="dropdown-item">انستغرام 📸</a>
                 </div>
-                <button class="dropdown-item" onclick="openLoginModal()">تسجيل الدخول 🔐</button>
+                <button class="dropdown-item" onclick="openLoginModal()">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                    تسجيل الدخول
+                </button>
             </div>
         </div>
     </header>
 
     <section class="hero">
-        <h2>مستقبل التفاعل الرقمي بين يديك</h2>
-        <p>أحدث حلول NFC وتقنيات التقييم الذكي للمطاعم والكافيهات والمؤسسات</p>
+        <h2>مستقبل التفاعل الرقمي <span>بين يديك</span></h2>
+        <p>أحدث حلول NFC وتقنيات التقييم الذكي للمطاعم والكافيهات والمؤسسات بأعلى جودة</p>
     </section>
 
     <section class="products-section">
         <h3>منتجاتنا المميزة</h3>
         <div id="products-container" class="products-grid">
-            <!-- المنتجات ستتحمل من قاعدة البيانات -->
+            <!-- المنتجات ستتحمل من قاعدة البيانات السحابية -->
         </div>
     </section>
 
@@ -90,7 +128,7 @@
                     <label>كلمة المرور</label>
                     <input type="password" id="password" placeholder="أدخل كلمة المرور" required>
                 </div>
-                <button type="submit" class="login-btn">دخول</button>
+                <button type="submit" class="login-btn">دخول للوحة التحكم</button>
             </form>
         </div>
     </div>
@@ -119,7 +157,7 @@
 
         async function loadStoreProducts() {
             const container = document.getElementById('products-container');
-            container.innerHTML = `<p style="text-align:center; color:#8b949e; grid-column: 1/-1;">جاري جلب المنتجات من القاعدة السحابية...</p>`;
+            container.innerHTML = `<p style="text-align:center; color:#c084fc; grid-column: 1/-1;">جاري جلب المنتجات السحابية...</p>`;
             
             try {
                 const response = await fetch(DB_URL);
@@ -127,7 +165,7 @@
                 
                 container.innerHTML = '';
                 if (!data || Object.keys(data).length === 0) {
-                    container.innerHTML = `<p style="text-align:center; color:#8b949e; grid-column: 1/-1;">لا توجد منتجات مضافة حالياً.</p>`;
+                    container.innerHTML = `<p style="text-align:center; color:#c084fc; grid-column: 1/-1;">لا توجد منتجات مضافة حالياً.</p>`;
                     return;
                 }
 
@@ -146,14 +184,14 @@
                     `;
                 });
             } catch (error) {
-                container.innerHTML = `<p style="text-align:center; color:#da3633; grid-column: 1/-1;">تعذر الاتصال بقاعدة البيانات.</p>`;
+                container.innerHTML = `<p style="text-align:center; color:#ff7675; grid-column: 1/-1;">تعذر الاتصال بقاعدة البيانات.</p>`;
             }
         }
 
         window.onload = loadStoreProducts;
 
         window.onclick = function(event) {
-            if (!event.target.matches('.menu-btn') && !event.target.closest('.dropdown-menu')) {
+            if (!event.target.matches('.menu-btn') && !event.target.closest('.dropdown-menu') && !event.target.closest('.menu-container')) {
                 document.getElementById('dropdownMenu').classList.remove('show');
             }
             if (event.target === document.getElementById('loginModal')) {
