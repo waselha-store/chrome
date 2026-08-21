@@ -1,73 +1,76 @@
-// ... (الوظائف القديمة كما هي، أضف هذه الوظائف الجديدة)
-
-function login() {
-    if(document.getElementById('email').value === "ali_haider123321@gmail.com" && document.getElementById('pass').value === "admin ali haider") {
-        localStorage.setItem('isLoggedIn', 'true');
-        location.reload();
-    } else { alert("بيانات خاطئة!"); }
-}
-
-function renderTable() {
-    const products = JSON.parse(localStorage.getItem('waselha_products') || '[]');
-    const tbody = document.getElementById('productTableBody');
-    tbody.innerHTML = '';
-    products.forEach((p, index) => {
-        tbody.innerHTML += `<tr>
-            <td>${index + 1}</td>
-            <td>${p.name}</td>
-            <td>${p.price}</td>
-            <td>
-                <button class="btn-edit" onclick="editProduct(${index})">تعديل</button>
-                <button class="btn-del" onclick="deleteProduct(${index})">حذف</button>
-            </td>
-        </tr>`;
-    });
-}
-
+// حفظ المنتجات
 function saveProduct() {
-    const editId = document.getElementById('editId').value;
-    const products = JSON.parse(localStorage.getItem('waselha_products') || '[]');
+    const name = document.getElementById('pName').value;
+    const price = document.getElementById('pPrice').value;
+    const desc = document.getElementById('pDesc').value;
     const file = document.getElementById('pImg').files[0];
     
-    if (editId !== "") {
-        // تحديث منتج موجود
-        const p = products[editId];
-        p.name = document.getElementById('pName').value;
-        p.desc = document.getElementById('pDesc').value;
-        p.price = document.getElementById('pPrice').value;
-        if(file) { /* تحديث الصورة منطق إضافي */ }
-        products[editId] = p;
-        document.getElementById('saveBtn').innerText = "حفظ المنتج";
-        document.getElementById('editId').value = "";
-    } else {
-        // إضافة جديد
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            products.push({name: document.getElementById('pName').value, desc: document.getElementById('pDesc').value, price: document.getElementById('pPrice').value, img: e.target.result});
-            localStorage.setItem('waselha_products', JSON.stringify(products));
-            location.reload();
-        };
-        reader.readAsDataURL(file);
-        return;
-    }
-    localStorage.setItem('waselha_products', JSON.stringify(products));
-    location.reload();
+    if(!name || !price) return alert("يرجى ملء البيانات");
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        let products = JSON.parse(localStorage.getItem('waselha_products') || '[]');
+        products.push({name, price, desc, img: e.target.result});
+        localStorage.setItem('waselha_products', JSON.stringify(products));
+        alert('تمت الإضافة!');
+        location.reload();
+    };
+    reader.readAsDataURL(file);
 }
 
-function deleteProduct(index) {
+// عرض المنتجات في المتجر
+function displayProducts() {
+    const grid = document.getElementById('productsGrid');
+    if(!grid) return;
+    const products = JSON.parse(localStorage.getItem('waselha_products') || '[]');
+    grid.innerHTML = products.map(p => `
+        <div class="product-card">
+            <img src="${p.img}">
+            <div class="info">
+                <div class="title">${p.name}</div>
+                <div class="price">${p.price} IQD</div>
+                <button class="btn-buy" onclick="window.open('https://wa.me/9647850281586?text=مرحباً، أريد طلب: ${p.name}')">طلب عبر الواتساب</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+// عرض الجدول في الأدمن
+function renderTable() {
+    const tbody = document.getElementById('productTableBody');
+    if(!tbody) return;
+    let products = JSON.parse(localStorage.getItem('waselha_products') || '[]');
+    tbody.innerHTML = products.map((p, i) => `
+        <tr>
+            <td>${i+1}</td>
+            <td>${p.name}</td>
+            <td>${p.price}</td>
+            <td class="actions">
+                <button style="background:#e74c3c" onclick="deleteProduct(${i})">🗑️</button>
+            </td>
+        </tr>
+    `).join('');
+}
+
+function deleteProduct(i) {
     let products = JSON.parse(localStorage.getItem('waselha_products'));
-    products.splice(index, 1);
+    products.splice(i, 1);
     localStorage.setItem('waselha_products', JSON.stringify(products));
     renderTable();
 }
 
-function editProduct(index) {
-    const products = JSON.parse(localStorage.getItem('waselha_products'));
-    const p = products[index];
-    document.getElementById('pName').value = p.name;
-    document.getElementById('pDesc').value = p.desc;
-    document.getElementById('pPrice').value = p.price;
-    document.getElementById('editId').value = index;
-    document.getElementById('saveBtn').innerText = "تحديث المنتج";
-    document.getElementById('formTitle').innerText = "تعديل بيانات المنتج";
+function login() {
+    if(document.getElementById('email').value === "ali@admin.com" && document.getElementById('pass').value === "1234") {
+        localStorage.setItem('logged', 'true');
+        location.reload();
+    } else { alert("خطأ!"); }
+}
+
+// التحقق من الدخول
+if(window.location.pathname.includes('admin.html')) {
+    if(localStorage.getItem('logged') === 'true') {
+        document.getElementById('loginBox').style.display = 'none';
+        document.getElementById('panel').style.display = 'block';
+        renderTable();
+    }
 }
