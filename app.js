@@ -1,34 +1,73 @@
-function toggleMenu() { document.getElementById('dropdownMenu').classList.toggle('show'); }
-function toggleSubmenu(e) { e.stopPropagation(); document.getElementById('contactSubmenu').classList.toggle('show'); }
-function orderProduct(name) { window.open(`https://wa.me/9647850281586?text=مرحباً، أود طلب المنتج: ${name}`, '_blank'); }
+// ... (الوظائف القديمة كما هي، أضف هذه الوظائف الجديدة)
 
-// منطق الأدمن
 function login() {
-    if(document.getElementById('email')?.value === "ali_haider123321@gmail.com" && document.getElementById('pass')?.value === "admin ali haider") {
-        document.getElementById('loginBox').style.display = 'none';
-        document.getElementById('panel').style.display = 'block';
-    } else { alert("خطأ!"); }
+    if(document.getElementById('email').value === "ali_haider123321@gmail.com" && document.getElementById('pass').value === "admin ali haider") {
+        localStorage.setItem('isLoggedIn', 'true');
+        location.reload();
+    } else { alert("بيانات خاطئة!"); }
 }
 
-function addP() {
-    const fileInput = document.getElementById('pImg');
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        const products = JSON.parse(localStorage.getItem('waselha_products') || '[]');
-        products.push({name: document.getElementById('pName').value, desc: document.getElementById('pDesc').value, price: document.getElementById('pPrice').value, img: e.target.result});
-        localStorage.setItem('waselha_products', JSON.stringify(products));
-        alert('تمت الإضافة بنجاح');
-    };
-    reader.readAsDataURL(fileInput.files[0]);
-}
-
-// عرض المنتجات
-function displayProducts() {
-    const grid = document.getElementById('productsGrid');
-    if(!grid) return;
+function renderTable() {
     const products = JSON.parse(localStorage.getItem('waselha_products') || '[]');
-    grid.innerHTML = products.length === 0 ? '<p style="text-align:center; color:#aaa;">لا توجد منتجات حالياً.</p>' : '';
-    products.forEach(p => {
-        grid.innerHTML += `<div class="product-card"><img src="${p.img}"><div class="product-info"><h3>${p.name}</h3><p>${p.desc}</p><p>${p.price}</p><button class="btn-gold" onclick="orderProduct('${p.name}')">طلب المنتج</button></div></div>`;
+    const tbody = document.getElementById('productTableBody');
+    tbody.innerHTML = '';
+    products.forEach((p, index) => {
+        tbody.innerHTML += `<tr>
+            <td>${index + 1}</td>
+            <td>${p.name}</td>
+            <td>${p.price}</td>
+            <td>
+                <button class="btn-edit" onclick="editProduct(${index})">تعديل</button>
+                <button class="btn-del" onclick="deleteProduct(${index})">حذف</button>
+            </td>
+        </tr>`;
     });
+}
+
+function saveProduct() {
+    const editId = document.getElementById('editId').value;
+    const products = JSON.parse(localStorage.getItem('waselha_products') || '[]');
+    const file = document.getElementById('pImg').files[0];
+    
+    if (editId !== "") {
+        // تحديث منتج موجود
+        const p = products[editId];
+        p.name = document.getElementById('pName').value;
+        p.desc = document.getElementById('pDesc').value;
+        p.price = document.getElementById('pPrice').value;
+        if(file) { /* تحديث الصورة منطق إضافي */ }
+        products[editId] = p;
+        document.getElementById('saveBtn').innerText = "حفظ المنتج";
+        document.getElementById('editId').value = "";
+    } else {
+        // إضافة جديد
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            products.push({name: document.getElementById('pName').value, desc: document.getElementById('pDesc').value, price: document.getElementById('pPrice').value, img: e.target.result});
+            localStorage.setItem('waselha_products', JSON.stringify(products));
+            location.reload();
+        };
+        reader.readAsDataURL(file);
+        return;
+    }
+    localStorage.setItem('waselha_products', JSON.stringify(products));
+    location.reload();
+}
+
+function deleteProduct(index) {
+    let products = JSON.parse(localStorage.getItem('waselha_products'));
+    products.splice(index, 1);
+    localStorage.setItem('waselha_products', JSON.stringify(products));
+    renderTable();
+}
+
+function editProduct(index) {
+    const products = JSON.parse(localStorage.getItem('waselha_products'));
+    const p = products[index];
+    document.getElementById('pName').value = p.name;
+    document.getElementById('pDesc').value = p.desc;
+    document.getElementById('pPrice').value = p.price;
+    document.getElementById('editId').value = index;
+    document.getElementById('saveBtn').innerText = "تحديث المنتج";
+    document.getElementById('formTitle').innerText = "تعديل بيانات المنتج";
 }
