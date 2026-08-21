@@ -7,15 +7,18 @@
     <title>متجر وصلـها</title>
 </head>
 <body>
-    <header>
-        <a href="index.html" class="logo">وصلـها <span>WASELHA STORE</span></a>
-        <a href="admin.html" style="color:var(--gold)">⚙️</a>
-    </header>
-    <div class="container">
-        <h2 style="margin-bottom: 15px; border-right: 4px solid var(--gold); padding-right: 10px;">أحدث المنتجات</h2>
-        <div id="productsGrid" class="products-grid"></div>
-    </div>
+    <nav>
+        <div class="logo">وصلـها</div>
+        <div class="menu-icon" onclick="document.querySelector('.nav-links').classList.toggle('active')">⋮</div>
+        <div class="nav-links">
+            <a href="index.html">الرئيسية</a>
+            <a href="admin.html">لوحة التحكم</a>
+            <a href="https://wa.me/9647850281586">تواصل معنا</a>
+        </div>
+    </nav>
+    <div class="products-grid" id="productsGrid"></div>
+    <a href="https://wa.me/9647850281586" class="wa-btn">💬</a>
     <script src="app.js"></script>
-    <script>window.onload = displayProducts;</script>
+    <script>displayProducts();</script>
 </body>
 </html>
