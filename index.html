@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>وصلها ستور | WASELHA STORE</title>
     <style>
-        /* إعدادات عامة وتصميم الألوان الداكنة */
+        /* إعدادات عامة وتصميم الألوان الداكنة المتناسقة */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -32,6 +32,7 @@
             z-index: 1000;
         }
 
+        /* شعار المتجر في اليمين */
         .logo h1 {
             font-size: 1.3rem;
             color: #ffffff;
@@ -46,7 +47,7 @@
             text-align: right;
         }
 
-        /* زر النقاط الثلاث والقائمة المنسدلة */
+        /* حاوية زر القائمة في اليسار */
         .menu-container {
             position: relative;
         }
@@ -61,6 +62,7 @@
             line-height: 1;
         }
 
+        /* القائمة المنسدلة وتوجيهها للداخل لكي تظهر بوضوح */
         .dropdown-menu {
             display: none;
             position: absolute;
@@ -72,7 +74,7 @@
             padding: 8px;
             z-index: 1001;
             min-width: 190px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.8);
         }
 
         .dropdown-menu.show {
@@ -159,7 +161,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.85);
             z-index: 2000;
             justify-content: center;
             align-items: center;
@@ -288,9 +290,15 @@
 </head>
 <body>
 
-    <!-- الهيدر العلوي -->
+    <!-- الهيدر العلوي بترتيب صحيح (الشعار يمين، القائمة يسار) -->
     <header>
-        <!-- زر القائمة (النقاط الثلاث) في اليسار -->
+        <!-- شعار المتجر في اليمين -->
+        <div class="logo">
+            <h1>وصلها ستور</h1>
+            <span>WASELHA STORE</span>
+        </div>
+
+        <!-- زر القائمة (النقاط الثلاث) في أقصى اليسار مع ضمان ظهور القائمة للداخل -->
         <div class="menu-container">
             <button class="menu-btn" id="menuBtn" onclick="toggleMenu()">⋮</button>
             <div class="dropdown-menu" id="dropdownMenu">
@@ -306,12 +314,6 @@
                 <!-- زر فتح نافذة تسجيل الدخول -->
                 <button class="dropdown-item" onclick="openLoginModal()">تسجيل الدخول 🔐</button>
             </div>
-        </div>
-
-        <!-- اسم المتجر في اليمين -->
-        <div class="logo">
-            <h1>وصلها ستور</h1>
-            <span>WASELHA STORE</span>
         </div>
     </header>
 
@@ -361,7 +363,7 @@
     <!-- ملف الجافاسكريبت الخاص بالمتجر -->
     <script src="app.js"></script>
 
-    <!-- أكواد التحكم بالقوائم ونافذة تسجيل الدخول -->
+    <!-- أكواد التحكم بالقوائم ونافذة تسجيل الدخول وحماية الآدمن -->
     <script>
         // إظهار وإخفاء القائمة الرئيسية
         function toggleMenu() {
@@ -386,18 +388,18 @@
             document.getElementById('loginModal').classList.remove('active');
         }
 
-        // التحقق من بيانات تسجيل الدخول (الآدمن أو المستخدم العادي)
+        // التحقق من بيانات تسجيل الدخول (الآدمن السري أو المستخدم العادي)
         function handleLogin(event) {
             event.preventDefault();
             const user = document.getElementById('username').value.trim();
             const pass = document.getElementById('password').value.trim();
 
-            // فحص بيانات الآدمن السرية
+            // التحقق من بيانات الآدمن السرية التي طلبتها
             if (user === 'admin' && pass === '123') {
-                alert('مرحباً بك يا مدير، يتم توجيهك إلى لوحة التحكم...');
+                alert('مرحباً بك يا مدير، يتم توجيهك إلى لوحة التحكم بسرية تامة...');
                 window.location.href = 'admin.html';
             } else {
-                // محاكاة تسجيل دخول مستخدم عادي
+                // تسجيل دخول مستخدم عادي بنجاح
                 alert('تم تسجيل الدخول بنجاح! أهلاً بك يا ' + user);
                 closeLoginModal();
             }
@@ -405,7 +407,7 @@
 
         // محاكاة تسجيل دخول جوجل
         function googleLogin() {
-            alert('تم الاتصال بخدمة مصادقة جوجل بنجاح.');
+            alert('تم الاتصال بمصادقة جوجل بنجاح.');
             closeLoginModal();
         }
 
