@@ -40,7 +40,7 @@
             letter-spacing: 2px;
             text-align: right;
         }
-        /* ضبط القائمة لتفتح في المكان الصحيح جهة اليمين */
+        /* القائمة المنسدلة من جهة اليسار وتفتح نحو الداخل */
         details {
             position: relative;
         }
@@ -59,18 +59,18 @@
         }
         .dropdown-menu {
             position: absolute;
-            right: 0; /* فتح القائمة من جهة اليمين */
-            left: auto;
+            left: 0;
+            right: auto;
             top: 45px;
             background: #161b22;
             border: 1px solid #00f2fe;
             border-radius: 8px;
             padding: 10px;
             z-index: 1001;
-            min-width: 160px;
+            min-width: 180px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
-        .dropdown-menu a {
+        .dropdown-menu a, .dropdown-menu summary {
             color: #ffffff;
             display: block;
             padding: 8px 12px;
@@ -79,10 +79,17 @@
             font-size: 0.95rem;
             text-align: right;
             transition: background 0.2s;
+            cursor: pointer;
         }
-        .dropdown-menu a:hover {
+        .dropdown-menu a:hover, .dropdown-menu summary:hover {
             background: rgba(0, 242, 254, 0.1);
             color: #00f2fe;
+        }
+        /* تنسيق القائمة الفرعية للتواصل */
+        .sub-menu {
+            padding-right: 15px;
+            margin-top: 5px;
+            border-right: 2px solid rgba(0, 242, 254, 0.3);
         }
         .hero {
             text-align: center;
@@ -138,21 +145,32 @@
 <body>
 
     <header>
-        <!-- اسم المتجر في اليسار -->
-        <div class="logo">
-            <h1>وصلها ستور</h1>
-            <span>WASELHA STORE</span>
-        </div>
-        
-        <!-- زر النقاط الثلاث والقائمة في اليمين -->
+        <!-- زر النقاط الثلاث في اليسار -->
         <div class="menu-container">
             <details>
                 <summary>⋮</summary>
                 <div class="dropdown-menu">
                     <a href="index.html">الرئيسية 🏠</a>
-                    <a href="admin.html">لوحة التحكم ⚙️</a>
+                    
+                    <!-- قائمة التواصل الفرعية -->
+                    <details>
+                        <summary style="font-size: 0.95rem; color: #fff; padding: 8px 12px;">تواصل معنا 📞</summary>
+                        <div class="sub-menu">
+                            <a href="https://wa.me/964XXXXXXXXX" target="_blank">واتساب 💬</a>
+                            <a href="https://instagram.com/YOUR_ACCOUNT" target="_blank">انستغرام 📸</a>
+                        </div>
+                    </details>
+
+                    <!-- تسجيل الدخول الآمن بحساب جوجل -->
+                    <a href="#" id="google-login-btn">تسجيل دخول (Google) 🔐</a>
                 </div>
             </details>
+        </div>
+
+        <!-- اسم المتجر في اليمين -->
+        <div class="logo">
+            <h1>وصلها ستور</h1>
+            <span>WASELHA STORE</span>
         </div>
     </header>
 
@@ -168,7 +186,7 @@
         </div>
     </section>
 
-    <a href="https://wa.me/" class="floating-chat" target="_blank" title="تواصل معنا">💬</a>
+    <a href="https://wa.me/964XXXXXXXXX" class="floating-chat" target="_blank" title="تواصل معنا">💬</a>
 
     <script src="app.js"></script>
 </body>
