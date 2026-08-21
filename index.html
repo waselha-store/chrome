@@ -3,43 +3,179 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>وصلها ستور | Waselha Store</title>
-    <link rel="stylesheet" href="style.css">
+    <title>وصلها ستور | WASELHA STORE</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #0d1117;
+            color: #ffffff;
+            line-height: 1.6;
+            padding-bottom: 50px;
+        }
+        header {
+            background: #161b22;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(0, 242, 254, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .logo h1 {
+            font-size: 1.4rem;
+            color: #ffffff;
+        }
+        .logo span {
+            display: block;
+            font-size: 0.7rem;
+            color: #00f2fe;
+            letter-spacing: 2px;
+        }
+        .menu-container {
+            position: relative;
+        }
+        .menu-btn {
+            background: none;
+            border: none;
+            color: #00f2fe;
+            font-size: 1.8rem;
+            cursor: pointer;
+            padding: 5px 10px;
+            line-height: 1;
+        }
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            left: 0;
+            top: 40px;
+            background: #161b22;
+            border: 1px solid #00f2fe;
+            border-radius: 8px;
+            padding: 10px;
+            z-index: 1001;
+            min-width: 160px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        .dropdown-menu.show {
+            display: block;
+        }
+        .dropdown-menu a {
+            color: #ffffff;
+            display: block;
+            padding: 8px 12px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            transition: background 0.2s;
+        }
+        .dropdown-menu a:hover {
+            background: rgba(0, 242, 254, 0.1);
+            color: #00f2fe;
+        }
+        .hero {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(180deg, #161b22 0%, #0d1117 100%);
+        }
+        .hero h2 {
+            font-size: 1.8rem;
+            color: #00f2fe;
+            margin-bottom: 15px;
+        }
+        .hero p {
+            color: #8b949e;
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 0.95rem;
+        }
+        .products-section {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        .products-section h3 {
+            text-align: center;
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            color: #ffffff;
+        }
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 20px;
+        }
+        .floating-chat {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: #25d366;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            text-decoration: none;
+            font-size: 1.5rem;
+            z-index: 999;
+        }
+    </style>
 </head>
 <body>
 
     <header>
-        <a href="index.html" style="text-decoration: none;">
-            <span class="logo-main">وصلـها ستور</span>
-            <span class="logo-sub">WASELHA STORE</span>
-        </a>
-        <div style="position: relative;">
-            <button class="three-dots-btn" onclick="toggleMenu()">⋮</button>
-            <div class="dropdown-menu" id="dropdownMenu">
-                <a href="index.html">الرئيسية</a>
-                <a href="admin.html">تسجيل الدخول</a>
-                <a href="https://wa.me/9647850281586" target="_blank">تواصل معنا</a>
+        <div class="menu-container">
+            <button class="menu-btn" id="menu-btn" onclick="toggleMenu()">⋮</button>
+            <div class="dropdown-menu" id="dropdown-menu">
+                <a href="index.html">الرئيسية 🏠</a>
+                <a href="admin.html">لوحة التحكم ⚙️</a>
             </div>
+        </div>
+        <div class="logo" style="text-align: left;">
+            <h1>وصلها ستور</h1>
+            <span>WASELHA STORE</span>
         </div>
     </header>
 
-    <div class="container">
-        <section class="hero-section">
-            <h1 class="hero-title">مستقبل التفاعل الرقمي بين يديك</h1>
-            <p class="hero-subtitle">أحدث حلول NFC وتقنيات التقييم الذكي للمطاعم والكافيهات والمؤسسات</p>
-        </section>
+    <section class="hero">
+        <h2>مستقبل التفاعل الرقمي بين يديك</h2>
+        <p>أحدث حلول NFC وتقنيات التقييم الذكي للمطاعم والكافيهات والمؤسسات</p>
+    </section>
 
-        <h2 style="margin-bottom: 20px; font-size: 22px;">منتجاتنا المميزة</h2>
-        <div class="products-grid" id="productsGrid">
-            <!-- المنتجات تتولد هنا ديناميكياً -->
+    <section class="products-section">
+        <h3>منتجاتنا المميزة</h3>
+        <div id="products-container" class="products-grid">
+            <p style="text-align:center; color:#888; grid-column: 1/-1;">جاري تحميل المنتجات...</p>
         </div>
-    </div>
+    </section>
 
-    <a href="https://wa.me/9647850281586" class="whatsapp-float" target="_blank">💬</a>
+    <a href="https://wa.me/" class="floating-chat" target="_blank" title="تواصل معنا">💬</a>
 
-    <script src="app.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", initStore);
+        function toggleMenu() {
+            const menu = document.getElementById('dropdown-menu');
+            menu.classList.toggle('show');
+        }
+
+        // إغلاق القائمة عند الضغط خارجها
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('dropdown-menu');
+            const btn = document.getElementById('menu-btn');
+            if (menu && btn && !menu.contains(event.target) && !btn.contains(event.target)) {
+                menu.classList.remove('show');
+            }
+        });
     </script>
+    <script src="app.js"></script>
 </body>
+</html>
 </html>
